@@ -10,7 +10,6 @@ Daemon Prince of Nurgle
 4
 3
 5
-10
 Weapons
 Melee
 Daemonic Axe

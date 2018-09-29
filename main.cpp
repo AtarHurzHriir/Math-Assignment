@@ -14,7 +14,7 @@ int main()
 {
     ifstream unit;//document holding the units stats
     int counter=0;
-    int unitStats[12];//array storing all of the units stats
+    int unitStats[11];//array storing all of the units stats
 
     string unitName = "None";//variable storing units name
 
@@ -33,6 +33,7 @@ int main()
     string permanentMelee[5]={""};//declares an array to store any melee weapons that cannot be switched out
     int x=-1;
     bool permanent=false;//variable to check if there are any weapons that cannot be switched out
+
     while(true)
     {
         if(unit.eof())
@@ -41,40 +42,36 @@ int main()
         {
             getline(unit,unitName);//gets the name of the unit
         }
-        else if(counter>0 && counter <13)
+        else if(counter>0 && counter <12)
         {
             unit>>unitStats[counter-1];//gets the stats of the unit
         }
-        else if(counter>=13)
+        else if(counter>=12)
         {
             getline(unit,storage);
-            if(melee)
+            if(permanent)
             {
-                if(storage=="PERMANENT")
-                {
-                    permanent=true;
-                }
-                else if(!permanent)
-                    unitMelee[x]=storage;
-                else
-                    permanentMelee[x]=storage;
+                permanentWeapons[x]=storage;
             }
-            if(storage=="Melee")
+            else if(storage=="PERMANENT")
+            {
+                x=-1;
+                permanent=true;
+            }
+            else if(melee)
+            {
+                unitMelee[x]=storage;
+            }
+            else if(storage=="Melee")
             {
                 melee=true;
                 permanent=false;
                 x=-1;
             }
-            else if(melee==false && storage!="Weapons")
+            else if(!melee && !permanent && storage!="Weapons")
             {
-                if(storage=="PERMANENT")
-                {
-                    permanent=true;
-                }
-                else if(!permanent)
-                    unitWeapons[x]=storage;
-                else
-                    permanentWeapons[x]=storage;
+                unitWeapons[x]=storage;
+
             }
             x++;
         }
@@ -95,12 +92,6 @@ int main()
     int attacks=unitStats[8];
     int sv=unitStats[9];
     int inv_sv=unitStats[10];
-    int ld=unitStats[11];
-
-
-    int e_sv=3;
-    int e_inv=5;
-    int e_toughness=4;
 
     ofstream results;
     results.open("Results.txt");
@@ -110,108 +101,233 @@ int main()
         return -2;
     }
     results<<unitName<<endl;
+    results<<"Enemy Stats"<<" /t ";
+    for(int a=0;unitWeapons[a]!="";a++)
+    {
+        results<<unitWeapons[a]<<" /t ";
+    }
+    for(int a=0;unitMelee[a]!="";a++)
+    {
+        results<<unitMelee[a]<<" /t ";
+    }
+    results<<endl;
     ifstream weapon;//document holding theel weapon stats
+
     //declares variables to store weapon data
     string weaponName;
     int weaponStats[4]={0};
-
-
-    for(int a=0;unitWeapons[a]!="";a++)//calculates the damage potential of the ranged weapons
+    string weaponSpecial[5]={""};
+    double totalPermWeaponDamage=0;
+    int totalPermWeaponPointCost=0;
+    double shots=0;
+    int w_strength=0;
+    int AP=0;
+    int damage=0;
+    //loops which control the enemy stats
+    for(int e_toughness=2;e_toughness<11;e_toughness++)
     {
-        string weaponFile="./Weapons/"+unitWeapons[a]+".txt";
-        weapon.open(weaponFile);
-        string weaponSpecial[5]={""};
-        if(!weapon)
+        for(int e_sv=2;e_sv<8;e_sv++)
         {
-            cout<<"Error Finding Weapon File"<<endl;
-            return -1;
-        }
-        counter=0;
-        while(true)
-        {
-            if(weapon.eof())
-                break;
-            if(counter==0)
-                getline(weapon,weaponName);
-            else if(counter>0 && counter <5)
+            for(int e_inv=2;e_inv<8;e_inv++)
             {
-                weapon>>weaponStats[counter-1];//gets the stats of the unit
+                for(int e_wounds=1;e_wounds<11;e_wounds++)
+                {
+                    results<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<endl;
+                    totalPermWeaponDamage=0;
+                    for(int a=0;permanentWeapons[a]!="";a++)//calculates the damage for all the permanent weapons from the unit
+                    {
+                        for(int a=0;weaponSpecial[a]!="";a++)//clears weapon special array
+                            weaponSpecial[a]="";
+                        string weaponFile="./Weapons/"+permanentWeapons[a]+".txt";
+                        weapon.open(weaponFile);
+                        if(!weapon)
+                        {
+                            weaponFile="./Melee/"+permanentWeapons[a]+".txt";
+                            weapon.open(weaponFile);
+                            if(!weapon)
+                            {
+                                cout<<"Error Finding Permanent Weapon File: "<<permanentWeapons[a]<<endl;
+                                return -1;
+                            }
+                            melee=true;
+                        }
+                        else
+                            melee=false;
+                        counter=0;
+                        while(true)
+                        {
+                            if(weapon.eof())
+                                break;
+                            if(counter==0)
+                                getline(weapon,weaponName);
+                            else if(counter>0 && counter <5)
+                            {
+                                weapon>>weaponStats[counter-1];//gets the stats of the unit
+                            }
+                            else if(counter>=5)
+                            {
+                                weapon>>weaponSpecial[counter-5];
+                            }
+                            counter++;
+                        }
+                        weapon.close();
+                        totalPermWeaponPointCost+=weaponStats[0];
+                        if(!melee)//puts values into variables for ranged weapon
+                        {
+                            shots=weaponStats[1];
+                            w_strength=weaponStats[2];
+                            AP=weaponStats[3];
+                            damage=weaponStats[4];
+                        }
+                        else
+                        {
+                            w_strength=weaponStats[1];
+                            AP=weaponStats[2];
+                            damage=weaponStats[3];
+                            strength=strength+w_strength;
+                        }
+                        //applies special properties which only affect damage directly or the users strength
+                        int attackBonus=0;
+                        for(int n=0;weaponSpecial[n]!="";n++)
+                        {
+                            if(weaponSpecial[n]=="OneExtraAttack")
+                                attackBonus=1;
+                            else if(weaponSpecial[n]=="TwoExtraAttacks")
+                                attackBonus=2;
+                            else if(weaponSpecial[n]=="ThreeExtraAttacks")
+                                attackBonus=3;
+                            else if(weaponSpecial[n]=="MultiplyStrength")
+                                strength=(strength-w_strength)*w_strength;//removes the additional strength given by the weapon, that was applied earlier, and instead multiplies it by the strength
+                        }
+                        if(damage>e_wounds)
+                            damage=e_wounds;
+                        if(!melee)
+                        {
+                            double hitPercent=hit_percent(BS,weaponSpecial);
+                            double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial);
+                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                            totalPermWeaponDamage=shots*models*hitPercent*woundPercent*savePercent*damage;
+                        }
+                        else
+                        {
+                            double hitPercent=hit_percent(BS,weaponSpecial);
+                            double woundPercent=wound_percent(e_toughness,strength,weaponSpecial);
+                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                            totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*models*hitPercent*woundPercent*savePercent*damage);
+                        }
+                    }
+                    for(int a=0;unitWeapons[a]!="";a++)//calculates the damage potential of the ranged weapons
+                    {
+                        string weaponFile="./Weapons/"+unitWeapons[a]+".txt";
+                        weapon.open(weaponFile);
+                        for(int a=0;weaponSpecial[a]!="";a++)//clears weapon special array
+                            weaponSpecial[a]="";
+                        if(!weapon)
+                        {
+                            cout<<"Error Finding Weapon File: "<<unitWeapons[a]<<endl;
+                            return -1;
+                        }
+                        counter=0;
+                        while(true)
+                        {
+                            if(weapon.eof())
+                                break;
+                            if(counter==0)
+                                getline(weapon,weaponName);
+                            else if(counter>0 && counter <5)
+                            {
+                                weapon>>weaponStats[counter-1];//gets the stats of the unit
+                            }
+                            else if(counter>=5)
+                            {
+                                weapon>>weaponSpecial[counter-5];
+                            }
+                            counter++;
+                        }
+                        weapon.close();
+                        //puts weapon values into useable variables
+                        int weaponPointCost=weaponStats[0];
+                        double shots=weaponStats[1];
+                        int w_strength=weaponStats[2];
+                        int AP=weaponStats[3];
+                        int damage=weaponStats[4];
+                        //finds the percentage for damage
+                        if(damage>e_wounds)
+                            damage=e_wounds;
+                        double hitPercent=hit_percent(BS,weaponSpecial);
+                        double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial);
+                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                        double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
+                        results<<weaponName<<endl;
+                        results<<damageDealt<<endl;
+                        results<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<endl<<endl;
+                    }
+
+                    for(int a=0;unitMelee[a]!="";a++)//calculates the damage potential of the melee weapons
+                    {
+                        string weaponFile="./Melee/"+unitMelee[a]+".txt";
+                        weapon.open(weaponFile);
+                        for(int a=0;weaponSpecial[a]!="";a++)//clears weapon special array
+                            weaponSpecial[a]="";
+                        if(!weapon)
+                        {
+                            cout<<"Error Finding Melee Weapon File: "<<unitMelee[a]<<endl;
+                            return -1.5;
+                        }
+                        counter=0;
+                        while(true)
+                        {
+                            if(weapon.eof())
+                                break;
+                            if(counter==0)
+                                getline(weapon,weaponName);
+                            else if(counter>0 && counter <5)
+                            {
+                                weapon>>weaponStats[counter-1];//gets the stats of the unit
+                            }
+                            else if(counter>=5)
+                            {
+                                weapon>>weaponSpecial[counter-5];
+                            }
+                            counter++;
+                        }
+                        weapon.close();
+                        //puts weapon values into useable variables
+                        int weaponPointCost=weaponStats[0];
+                        int w_strength=weaponStats[1];
+                        int AP=weaponStats[2];
+                        int damage=weaponStats[3];
+                        //applies special properties which ONLY affect the final damage calculation (ie attacks, or damage modifier), and the users strength
+                        int attackBonus=0;
+                        strength=strength+w_strength;
+                        for(int n=0;weaponSpecial[n]!="";n++)
+                        {
+                            if(weaponSpecial[n]=="OneExtraAttack")
+                                attackBonus=1;
+                            else if(weaponSpecial[n]=="TwoExtraAttacks")
+                                attackBonus=2;
+                            else if(weaponSpecial[n]=="ThreeExtraAttacks")
+                                attackBonus=3;
+                            else if(weaponSpecial[n]=="MultiplyStrength")
+                                strength=(strength-w_strength)*w_strength;//removes the additional strength given by the weapon, that was applied earlier, and instead multiplies it by the strength
+                        }
+
+                        if(damage>e_wounds)
+                            damage=e_wounds;
+                        //finds the percentage for damage
+                        double hitPercent=hit_percent(WS,weaponSpecial);
+                        double woundPercent=wound_percent(e_toughness,strength,weaponSpecial);
+                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                        double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
+                        results<<weaponName<<endl;
+                        results<<damageDealt<<endl;
+                        results<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<endl<<endl;
+                    }
+                }
             }
-            else if(counter>=5)
-            {
-                weapon>>weaponSpecial[counter-5];
-            }
-            counter++;
         }
-        weapon.close();
-        //puts weapon values into useable variables
-        int weaponPointCost=weaponStats[0];
-        double shots=weaponStats[1];
-        int w_strength=weaponStats[2];
-        int AP=weaponStats[3];
-        int damage=weaponStats[4];
-        //finds the percentage for damage
-        double hitPercent=hit_percent(BS,weaponSpecial);
-        cout<<hitPercent<<endl;
-        double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial);
-        cout<<woundPercent<<endl;
-        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
-        cout<<savePercent<<endl;
-        double damageDealt=shots*hitPercent*woundPercent*savePercent*damage;
-        cout<<damageDealt<<endl;
     }
 
-    for(int a=0;unitMelee[a]!="";a++)//calculates the damage potential of the melee weapons
-    {
-        string weaponFile="./Melee/"+unitMelee[a]+".txt";
-        weapon.open(weaponFile);
-        string weaponSpecial[5]={""};
-        if(!weapon)
-        {
-            cout<<"Error Finding Melee Weapon File"<<endl;
-            return -1.5;
-        }
-        counter=0;
-        while(true)
-        {
-            if(weapon.eof())
-                break;
-            if(counter==0)
-                getline(weapon,weaponName);
-            else if(counter>0 && counter <5)
-            {
-                weapon>>weaponStats[counter-1];//gets the stats of the unit
-            }
-            else if(counter>=5)
-            {
-                weapon>>weaponSpecial[counter-5];
-            }
-            counter++;
-        }
-        weapon.close();
-        //puts weapon values into useable variables
-        int weaponPointCost=weaponStats[0];
-        int w_strength=weaponStats[1];
-        int AP=weaponStats[2];
-        int damage=weaponStats[3];
-        //finds the percentage for damage
-        double hitPercent=hit_percent(WS,weaponSpecial);
-        double woundPercent=wound_percent(e_toughness,strength,weaponSpecial);
-        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
-        //applies special properties which ONLY affect the final damage calculation (ie attacks, or damage modifier)
-        int attackBonus=0;
-        for(int n=0;weaponSpecial[n]!="";n++)
-        {
-            if(weaponSpecial[n]=="OneExtraAttack")
-                attackBonus=1;
-            else if(weaponSpecial[n]=="ThreeExtraAttacks")
-                attackBonus=3;
-        }
-        double damageDealt=(attacks+attackBonus)*hitPercent*woundPercent*savePercent*damage;
-        results<<weaponName<<endl;
-        results<<"Average Damage Dealt: "<<damageDealt<<endl;
-        results<<"Damgage Per Point: "<<damageDealt/(pointCost+weaponPointCost)<<endl<<endl;
-    }
     return 0;
 }
 
@@ -277,9 +393,9 @@ double wound_percent(int e_toughness, int strength,string specialProp[5])
 double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5])
 {
     double save=0.0;
-    if(e_sv+AP > 7 && e_inv_sv==0)
+    if(e_sv+AP >= 7 && e_inv_sv==7)
         return 1;
-    if((e_sv+AP<e_inv_sv && e_inv_sv != 0) or e_inv_sv==0)
+    if(((e_sv+AP)<e_inv_sv && e_inv_sv != 7) or e_inv_sv==7)
     {
         switch(e_sv + AP)
         {

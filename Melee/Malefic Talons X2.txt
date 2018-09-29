@@ -3,4 +3,4 @@ Malefic Talons X2
 0
 2
 2
-ThreeExtraAttacks
+TwoExtraAttacks
