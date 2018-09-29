@@ -1,0 +1,13 @@
+Daemon Prince of Nurgle
+Daemonic Axe
+Average Damage Dealt: 1.77778
+Damgage Per Point: 0.011396
+
+Hellforged Sword
+Average Damage Dealt: 2.22222
+Damgage Per Point: 0.014245
+
+Malefic Talons X2
+Average Damage Dealt: 2.59259
+Damgage Per Point: 0.0166192
+
