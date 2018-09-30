@@ -93,24 +93,36 @@ int main()
     int sv=unitStats[9];
     int inv_sv=unitStats[10];
 
-    ofstream results;
-    results.open("Results.txt");
-    if(!results)
+    ofstream damageOutputFile;
+    damageOutputFile.open("Average Damage of Unit.csv");
+    if(!damageOutputFile)
     {
-        cout<<"Error Finding Results File"<<endl;
+        cout<<"Error Finding Average Damage of Unit File"<<endl;
         return -2;
     }
-    results<<unitName<<endl;
-    results<<"Enemy Stats"<<" /t ";
+    ofstream damagePerPoint;
+    damagePerPoint.open("Damage Per Point.csv");
+    if(!damagePerPoint)
+    {
+        cout<<"Error Finding Average Damage of Unit File"<<endl;
+        return -2;
+    }
+    damageOutputFile<<unitName<<endl;
+    damageOutputFile<<"Enemy Stats (T/SV/INV/W),";
+    damagePerPoint<<unitName<<endl;
+    damagePerPoint<<"Enemy Stats,";
     for(int a=0;unitWeapons[a]!="";a++)
     {
-        results<<unitWeapons[a]<<" /t ";
+        damageOutputFile<<unitWeapons[a]<<",";
+        damagePerPoint<<unitWeapons[a]<<",";
     }
     for(int a=0;unitMelee[a]!="";a++)
     {
-        results<<unitMelee[a]<<" /t ";
+        damageOutputFile<<unitMelee[a]<<",";
+        damagePerPoint<<unitMelee[a]<<",";
     }
-    results<<endl;
+    damageOutputFile<<endl;
+    damagePerPoint<<endl;
     ifstream weapon;//document holding theel weapon stats
 
     //declares variables to store weapon data
@@ -132,7 +144,8 @@ int main()
             {
                 for(int e_wounds=1;e_wounds<11;e_wounds++)
                 {
-                    results<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<endl;
+                    damageOutputFile<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
+                    damagePerPoint<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
                     totalPermWeaponDamage=0;
                     for(int a=0;permanentWeapons[a]!="";a++)//calculates the damage for all the permanent weapons from the unit
                     {
@@ -258,11 +271,9 @@ int main()
                         double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
                         double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
-                        results<<weaponName<<endl;
-                        results<<damageDealt<<endl;
-                        results<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<endl<<endl;
+                        damageOutputFile<<damageDealt<<",";
+                        damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
-
                     for(int a=0;unitMelee[a]!="";a++)//calculates the damage potential of the melee weapons
                     {
                         string weaponFile="./Melee/"+unitMelee[a]+".txt";
@@ -319,10 +330,11 @@ int main()
                         double woundPercent=wound_percent(e_toughness,strength,weaponSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
                         double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
-                        results<<weaponName<<endl;
-                        results<<damageDealt<<endl;
-                        results<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<endl<<endl;
+                        damageOutputFile<<damageDealt<<",";
+                        damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
+                    damageOutputFile<<endl;
+                    damagePerPoint<<endl;
                 }
             }
         }
