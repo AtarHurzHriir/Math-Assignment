@@ -1,0 +1,48 @@
+Chaos Lord
+1
+0
+74
+2
+2
+4
+4
+5
+4
+3
+4
+Weapons
+Bolt Pistol
+Combi-Bolter
+Combi-Bolter Half Range
+Combi-Flamer
+Combi-Flamer Both Profiles
+Combi-FLamer Both Profiles Half Range
+Combi-Melta
+Combi-Melta Both Profiles
+Combi-Melta Both Profiles Half Range
+Combi-Plasma
+Combi-Plasma Half Range
+Combi-Plasma Both Profiles
+Combi-Plasma Both Profiles Half Range
+Combi-Plasma SC
+Combi-Plasma SC Half Range
+Combi-Plasma SC Both Profiles
+Combi-Plasma SC Both Profiles Half Range
+Combi-Weapon Bolter Profile
+Combi-Weapon Bolter Profile Half Range
+Plasma Pistol
+Plasma Pistol SC
+Blight Grenade
+Krak Grenade
+Melee
+Balesword
+Chainaxe
+Chainsword
+Lightning Claw
+Power Axe
+Power Fist
+Power Maul
+Power Sword
+PERMANENT
+Special
+RerollHitOne

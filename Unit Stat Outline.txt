@@ -6,6 +6,7 @@ bs
 ws
 strength
 toughness
+wounds
 attacks
 sv
 inv_sv
@@ -15,3 +16,5 @@ melee:
 (list all melee weapons
 PERMANENT
 (list all permanent weapons)
+Special
+(List all fo units special properties)

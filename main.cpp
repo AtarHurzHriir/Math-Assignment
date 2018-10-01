@@ -17,7 +17,7 @@ int main()
     while(true)
     {
         bool valid=false;
-        string units[]={"HQ","Troop","Elite","Fast Attack","Heavy Support","Flyers","Lord of War"};
+        string units[7]={"HQ","Troop","Elite","Fast Attack","Heavy Support","Flyers","Lord of War"};
         cin>>unitType;
         for(int n=0;n<8;n++)
         {
@@ -33,12 +33,12 @@ int main()
             cout<<"Please Enter a Valid Unit Type"<<endl;
     }
     string HQ[7]={"Chaos Lord","Chaos Lord in Terminator Armour","Daemon Prince of Nurgle","Lord of Contagion","Malignant Plaguecaster","Sorcerer","Typhus"};
-    string troops[]={"Chaos Cultists","Plague Marines","Poxwalkers","Poxwalkers with Typhus"};
-    string elite[]={"Biologus Putrifier","Blightlord Terminators", "Deathsroud Terminators", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
-    string fastAttack[]={"Chaos Spawn", "Foetid Bloat-drone", "Myphitic Blight-haulers"};
-    string heavySupport[]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler"};
-    string flyers[]={};
-    string lordOfWar[]={"Mortarion"};
+    string troops[4]={"Chaos Cultists","Plague Marines","Poxwalkers","Poxwalkers with Typhus"};
+    string elite[9]={"Biologus Putrifier","Blightlord Terminators", "Deathsroud Terminators", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
+    string fastAttack[3]={"Chaos Spawn", "Foetid Bloat-drone", "Myphitic Blight-haulers"};
+    string heavySupport[4]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler"};
+    string flyers[1]={""};
+    string lordOfWar[1]={"Mortarion"};
     cout<<"Which Unit Would You Like to Evaluate?"<<endl;
     string desiredUnit="";
     while(true)
@@ -46,17 +46,17 @@ int main()
         bool valid=false;
         if(unitType=="HQ")
         {
-            int typeSize=HQ.size();
             if(desiredUnit=="")
             {
-                for(int n=0;n<typeSize;n++)
+                for(int n=0;n<7;n++)
                 {
                     cout<<HQ[n]<<", ";
                 }
+                cout<<endl;
             }
             else
             {
-                for(int n=0;n<HQ.size();n++)
+                for(int n=0;n<7;n++)
                 {
                     if(desiredUnit==HQ[n])
                     {
@@ -72,14 +72,14 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<troops.size();n++)
+                for(int n=0;n<4;n++)
                 {
                     cout<<HQ[n]<<", ";
                 }
             }
             else
             {
-                for(int n=0;n<troops.size();n++)
+                for(int n=0;n<4;n++)
                 {
                     if(desiredUnit==troops[n])
                     {
@@ -95,14 +95,14 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<elite.size();n++)
+                for(int n=0;n<9;n++)
                 {
                     cout<<HQ[n]<<", ";
                 }
             }
             else
             {
-                for(int n=0;n<elite.size();n++)
+                for(int n=0;n<9;n++)
                 {
                     if(desiredUnit==elite[n])
                     {
@@ -114,17 +114,110 @@ int main()
                     cout<<"Please Enter a Valid Unit Name"<<endl;
             }
         }
+        else if(unitType=="Fast Attack")
+        {
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<3;n++)
+                {
+                    cout<<HQ[n]<<", ";
+                }
+            }
+            else
+            {
+                for(int n=0;n<3;n++)
+                {
+                    if(desiredUnit==fastAttack[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
+        else if(unitType=="Heavy Support")
+        {
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<4;n++)
+                {
+                    cout<<HQ[n]<<", ";
+                }
+            }
+            else
+            {
+                for(int n=0;n<4;n++)
+                {
+                    if(desiredUnit==heavySupport[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
+        else if(unitType=="Flyers")
+        {
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<1;n++)
+                {
+                    cout<<HQ[n]<<", ";
+                }
+            }
+            else
+            {
+                for(int n=0;n<1;n++)
+                {
+                    if(desiredUnit==flyers[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
+        else if(unitType=="Lord of War")
+        {
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<1;n++)
+                {
+                    cout<<HQ[n]<<", ";
+                }
+            }
+            else
+            {
+                for(int n=0;n<1;n++)
+                {
+                    if(desiredUnit==lordOfWar[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
         if(valid)
             break;
-        cin>>desiredUnit;
-
+        cin.ignore();
+        getline(cin,desiredUnit);
     }
     ifstream unit;//document holding the units stats
     int counter=0;
     int unitStats[11];//array storing all of the units stats
     string unitSpecial[5]={""};//array for storing the special abilities of the unit
     string unitName = "None";//variable storing units name
-    unit.open("./Units/HQ/DaemonPrinceofNurgle.txt");
+    string unitFileDirectory="./Units/"+unitType+"/"+desiredUnit+".txt";
+    unit.open(unitFileDirectory);
     if(!unit)
     {
         cout<<"Error File Not Found"<<endl;
@@ -133,7 +226,7 @@ int main()
 
     string storage="None";//storage variable to determine when the melee weapon list starts
     bool melee=false;//determines where the melee weapon list begins
-    string unitWeapons[12]={""};//declares the array to store the ranged weapons
+    string unitWeapons[15]={""};//declares the array to store the ranged weapons
     string unitMelee[12]={""};//declares the array to store the melee weapons
     string permanentWeapons[5]={""};//declares an array to store any ranged weapons that cannot be switched out
     string permanentMelee[5]={""};//declares an array to store any melee weapons that cannot be switched out
@@ -267,8 +360,8 @@ int main()
                     totalPermWeaponDamage=0;
                     for(int a=0;permanentWeapons[a]!="";a++)//calculates the damage for all the permanent weapons from the unit
                     {
-                        for(int a=0;weaponSpecial[a]!="";a++)//clears weapon special array
-                            weaponSpecial[a]="";
+                        for(int b=0;weaponSpecial[b]!="";b++)//clears weapon special array
+                            weaponSpecial[b]="";
                         string weaponFile="./Weapons/"+permanentWeapons[a]+".txt";
                         weapon.open(weaponFile);
                         if(!weapon)
@@ -355,8 +448,8 @@ int main()
                     {
                         string weaponFile="./Weapons/"+unitWeapons[a]+".txt";
                         weapon.open(weaponFile);
-                        for(int a=0;weaponSpecial[a]!="";a++)//clears weapon special array
-                            weaponSpecial[a]="";
+                        for(int b=0;weaponSpecial[b]!="";b++)//clears weapon special array
+                            weaponSpecial[b]="";
                         if(!weapon)
                         {
                             cout<<"Error Finding Weapon File: "<<unitWeapons[a]<<endl;
@@ -404,8 +497,8 @@ int main()
                     {
                         string weaponFile="./Melee/"+unitMelee[a]+".txt";
                         weapon.open(weaponFile);
-                        for(int a=0;weaponSpecial[a]!="";a++)//clears weapon special array
-                            weaponSpecial[a]="";
+                        for(int b=0;weaponSpecial[b]!="";b++)//clears weapon special array
+                            weaponSpecial[b]="";
                         if(!weapon)
                         {
                             cout<<"Error Finding Melee Weapon File: "<<unitMelee[a]<<endl;
