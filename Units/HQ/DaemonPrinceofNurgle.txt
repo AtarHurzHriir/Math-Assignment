@@ -17,3 +17,6 @@ Hellforged Sword
 Malefic Talons X2
 PERMANENT
 Malefic Talons
+Special
+RerollHitOne
+DR

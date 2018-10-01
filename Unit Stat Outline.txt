@@ -1,0 +1,17 @@
+name
+min models
+has champion (true/false)
+point cost
+bs
+ws
+strength
+toughness
+attacks
+sv
+inv_sv
+weapons:
+(list all weapons)
+melee:
+(list all melee weapons
+PERMANENT
+(list all permanent weapons)

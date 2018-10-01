@@ -6,18 +6,124 @@
 using namespace std;
 
 //declare functions
-double hit_percent(int BS,string specialProp[5]);
-double wound_percent(int e_toughness,int strength,string specialProp[5]);
-double save_percent(int e_sv, int e_inv_sv,int AP,string specialProp[5]);
+double hit_percent(int BS,string specialProp[5], string unitSpecial[5]);
+double wound_percent(int e_toughness,int strength,string specialProp[5],string unitSpecial[5]);
+double save_percent(int e_sv, int e_inv_sv,int AP,string specialProp[5],string unitSpecial[5]);
 
 int main()
 {
+    string unitType="";
+    cout<<"Which Unit Type Would You Like to Evaluate?"<<endl;
+    while(true)
+    {
+        bool valid=false;
+        string units[]={"HQ","Troop","Elite","Fast Attack","Heavy Support","Flyers","Lord of War"};
+        cin>>unitType;
+        for(int n=0;n<8;n++)
+        {
+            if(unitType==units[n])
+            {
+                valid=true;
+                break;
+            }
+        }
+        if(valid)
+            break;
+        else
+            cout<<"Please Enter a Valid Unit Type"<<endl;
+    }
+    string HQ[7]={"Chaos Lord","Chaos Lord in Terminator Armour","Daemon Prince of Nurgle","Lord of Contagion","Malignant Plaguecaster","Sorcerer","Typhus"};
+    string troops[]={"Chaos Cultists","Plague Marines","Poxwalkers","Poxwalkers with Typhus"};
+    string elite[]={"Biologus Putrifier","Blightlord Terminators", "Deathsroud Terminators", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
+    string fastAttack[]={"Chaos Spawn", "Foetid Bloat-drone", "Myphitic Blight-haulers"};
+    string heavySupport[]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler"};
+    string flyers[]={};
+    string lordOfWar[]={"Mortarion"};
+    cout<<"Which Unit Would You Like to Evaluate?"<<endl;
+    string desiredUnit="";
+    while(true)
+    {
+        bool valid=false;
+        if(unitType=="HQ")
+        {
+            int typeSize=HQ.size();
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<typeSize;n++)
+                {
+                    cout<<HQ[n]<<", ";
+                }
+            }
+            else
+            {
+                for(int n=0;n<HQ.size();n++)
+                {
+                    if(desiredUnit==HQ[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
+        else if(unitType=="Troop")
+        {
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<troops.size();n++)
+                {
+                    cout<<HQ[n]<<", ";
+                }
+            }
+            else
+            {
+                for(int n=0;n<troops.size();n++)
+                {
+                    if(desiredUnit==troops[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
+        else if(unitType=="Elite")
+        {
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<elite.size();n++)
+                {
+                    cout<<HQ[n]<<", ";
+                }
+            }
+            else
+            {
+                for(int n=0;n<elite.size();n++)
+                {
+                    if(desiredUnit==elite[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
+        if(valid)
+            break;
+        cin>>desiredUnit;
+
+    }
     ifstream unit;//document holding the units stats
     int counter=0;
     int unitStats[11];//array storing all of the units stats
-
+    string unitSpecial[5]={""};//array for storing the special abilities of the unit
     string unitName = "None";//variable storing units name
-
     unit.open("./Units/HQ/DaemonPrinceofNurgle.txt");
     if(!unit)
     {
@@ -33,7 +139,7 @@ int main()
     string permanentMelee[5]={""};//declares an array to store any melee weapons that cannot be switched out
     int x=-1;
     bool permanent=false;//variable to check if there are any weapons that cannot be switched out
-
+    bool special=false;//variable to check if there are any special abilities
     while(true)
     {
         if(unit.eof())
@@ -49,7 +155,16 @@ int main()
         else if(counter>=12)
         {
             getline(unit,storage);
-            if(permanent)
+            if(special)
+            {
+                unitSpecial[x]=storage;
+            }
+            else if (storage=="Special")
+            {
+                x=-1;
+                special=true;
+            }
+            else if(permanent)
             {
                 permanentWeapons[x]=storage;
             }
@@ -135,14 +250,17 @@ int main()
     int w_strength=0;
     int AP=0;
     int damage=0;
+    int maxDamage=0;//variable to cap the amount of wounds the loop goes through at highest damaging weapon
     //loops which control the enemy stats
-    for(int e_toughness=2;e_toughness<11;e_toughness++)
+    for(int e_toughness=2;e_toughness<9;e_toughness+=2)
     {
         for(int e_sv=2;e_sv<8;e_sv++)
         {
             for(int e_inv=2;e_inv<8;e_inv++)
             {
-                for(int e_wounds=1;e_wounds<11;e_wounds++)
+                if(e_inv<e_sv)
+                    e_inv=e_sv;
+                for(int e_wounds=1;e_wounds<7;e_wounds++)
                 {
                     damageOutputFile<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
                     damagePerPoint<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
@@ -213,19 +331,23 @@ int main()
                                 strength=(strength-w_strength)*w_strength;//removes the additional strength given by the weapon, that was applied earlier, and instead multiplies it by the strength
                         }
                         if(damage>e_wounds)
+                        {
+                            if(damage>maxDamage)
+                                maxDamage=damage;
                             damage=e_wounds;
+                        }
                         if(!melee)
                         {
-                            double hitPercent=hit_percent(BS,weaponSpecial);
-                            double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial);
-                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                            double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
+                            double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
+                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                             totalPermWeaponDamage=shots*models*hitPercent*woundPercent*savePercent*damage;
                         }
                         else
                         {
-                            double hitPercent=hit_percent(BS,weaponSpecial);
-                            double woundPercent=wound_percent(e_toughness,strength,weaponSpecial);
-                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                            double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
+                            double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
+                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                             totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*models*hitPercent*woundPercent*savePercent*damage);
                         }
                     }
@@ -266,10 +388,14 @@ int main()
                         int damage=weaponStats[4];
                         //finds the percentage for damage
                         if(damage>e_wounds)
+                        {
+                            if(damage>maxDamage)
+                                maxDamage=damage;
                             damage=e_wounds;
-                        double hitPercent=hit_percent(BS,weaponSpecial);
-                        double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial);
-                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                        }
+                        double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
+                        double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
+                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                         double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
@@ -324,32 +450,39 @@ int main()
                         }
 
                         if(damage>e_wounds)
+                        {
+                            if(damage>maxDamage)
+                                maxDamage=damage;
                             damage=e_wounds;
+                        }
                         //finds the percentage for damage
-                        double hitPercent=hit_percent(WS,weaponSpecial);
-                        double woundPercent=wound_percent(e_toughness,strength,weaponSpecial);
-                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial);
+                        double hitPercent=hit_percent(WS,weaponSpecial,unitSpecial);
+                        double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
+                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                         double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
                     damageOutputFile<<endl;
                     damagePerPoint<<endl;
+                    if(e_wounds>=maxDamage)
+                        break;
                 }
             }
         }
     }
-
+    cout<<"Calculations Complete"<<endl;
     return 0;
 }
 
-double hit_percent(int BS,string specialProp[5])
+double hit_percent(int BS,string specialProp[5],string unitSpecial[5])
 {
     for(int n=0;specialProp[n]!="";n++)
     {
         if(specialProp[n]=="MinusOneToHit")
             BS+=1;
     }
+
     double hit=0.0;
     switch(BS)
     {
@@ -383,10 +516,19 @@ double hit_percent(int BS,string specialProp[5])
             hit = 1.0/6.0;
             break;
         }
+
+    }
+
+    for(int n=0;unitSpecial[n]!="";n++)
+    {
+        if(unitSpecial[n]=="RerollHitOne")
+        {
+            hit=hit+(hit*(1.0/6.0));
+        }
     }
     return hit;
 }
-double wound_percent(int e_toughness, int strength,string specialProp[5])
+double wound_percent(int e_toughness, int strength,string specialProp[5],string unitSpecial[5])
 {
     double percent=0;
     if(strength >= e_toughness*2)
@@ -402,7 +544,7 @@ double wound_percent(int e_toughness, int strength,string specialProp[5])
     return percent;
 }
 
-double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5])
+double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5],string unitSpecial[5])
 {
     double save=0.0;
     if(e_sv+AP >= 7 && e_inv_sv==7)
@@ -449,17 +591,17 @@ double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5])
         {
             case 1:
             {
-                save = 5.0/6.0;
+                save = 1.0/6.0;
                 break;
             }
             case 2:
             {
-                save = 5.0/6.0;
+                save = 1.0/6.0;
                 break;
             }
             case 3:
             {
-                save = 4.0/6.0;
+                save = 2.0/6.0;
                 break;
             }
             case 4:
@@ -469,12 +611,12 @@ double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5])
             }
             case 5:
             {
-                save = 2.0/6.0;
+                save = 4.0/6.0;
                 break;
             }
             case 6:
             {
-                save = 1.0/6.0;
+                save = 5.0/6.0;
                 break;
             }
         }
