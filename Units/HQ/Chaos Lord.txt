@@ -16,8 +16,9 @@ Combi-Bolter
 Combi-Bolter Half Range
 Combi-Flamer
 Combi-Flamer Both Profiles
-Combi-FLamer Both Profiles Half Range
+Combi-Flamer Both Profiles Half Range
 Combi-Melta
+Combi-Melta Half Range
 Combi-Melta Both Profiles
 Combi-Melta Both Profiles Half Range
 Combi-Plasma
