@@ -3,4 +3,4 @@ Combi-Melta Half Range
 1
 8
 4
-3.5
+4.47

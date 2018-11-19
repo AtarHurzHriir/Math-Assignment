@@ -1,0 +1,7 @@
+Power Fist
+12
+2
+3
+2
+MultiplyStrength
+MinusOneToHit

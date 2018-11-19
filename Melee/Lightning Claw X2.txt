@@ -1,0 +1,7 @@
+Lightning Claw X2
+12
+0
+2
+1
+RerollWound
+OneExtraAttack

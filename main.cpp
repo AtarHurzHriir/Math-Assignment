@@ -289,8 +289,8 @@ int main()
     if(unitWeapons[11]=="" && unitWeapons[12]!="")
         unitWeapons[12]="";
     //Puts the unitStats array into variables for easier use
-    int models=unitStats[0];
-    bool champion=unitStats[1];
+    //int models=unitStats[0];
+    //bool champion=unitStats[1];
     int pointCost=unitStats[2];
     int BS=unitStats[3];
     int WS=unitStats[4];
@@ -434,14 +434,14 @@ int main()
                             double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
                             double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
                             double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                            totalPermWeaponDamage=shots*models*hitPercent*woundPercent*savePercent*damage;
+                            totalPermWeaponDamage=shots*hitPercent*woundPercent*savePercent*damage;
                         }
                         else
                         {
                             double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
                             double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                             double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                            totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*models*hitPercent*woundPercent*savePercent*damage);
+                            totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*hitPercent*woundPercent*savePercent*damage);
                         }
                     }
                     for(int a=0;unitWeapons[a]!="";a++)//calculates the damage potential of the ranged weapons
@@ -489,7 +489,7 @@ int main()
                         double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                        double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
+                        double damageDealt=(shots*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
@@ -552,7 +552,7 @@ int main()
                         double hitPercent=hit_percent(WS,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                        double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
+                        double damageDealt=((attacks+attackBonus)*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
