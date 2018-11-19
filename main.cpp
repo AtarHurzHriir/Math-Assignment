@@ -345,7 +345,7 @@ int main()
     int damage=0;
     int maxDamage=0;//variable to cap the amount of wounds the loop goes through at highest damaging weapon
     //loops which control the enemy stats
-    for(int e_toughness=2;e_toughness<9;e_toughness+=2)
+    for(int e_toughness=2;e_toughness<=10;e_toughness++)
     {
         for(int e_sv=2;e_sv<8;e_sv++)
         {
@@ -353,7 +353,7 @@ int main()
             {
                 if(e_inv<e_sv)
                     e_inv=e_sv;
-                for(int e_wounds=1;e_wounds<7;e_wounds++)
+                for(int e_wounds=1;e_wounds<=6;e_wounds++)
                 {
                     damageOutputFile<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
                     damagePerPoint<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
@@ -558,8 +558,6 @@ int main()
                     }
                     damageOutputFile<<endl;
                     damagePerPoint<<endl;
-                    if(e_wounds>=maxDamage)
-                        break;
                 }
             }
         }
