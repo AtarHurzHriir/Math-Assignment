@@ -32,7 +32,7 @@ int main()
         else
             cout<<"Please Enter a Valid Unit Type"<<endl;
     }
-    string HQ[7]={"Chaos Lord","Chaos Lord in Terminator Armour","Daemon Prince of Nurgle","Lord of Contagion","Malignant Plaguecaster","Sorcerer","Typhus"};
+    string HQ[8]={"Chaos Lord","Chaos Lord in Terminator Armor","Daemon Prince of Nurgle","Lord of Contagion","Malignant Plaguecaster","Sorcerer","Sorcerer in Terminator Armor","Typhus"};
     string troops[4]={"Chaos Cultists","Plague Marines","Poxwalkers","Poxwalkers with Typhus"};
     string elite[9]={"Biologus Putrifier","Blightlord Terminators", "Deathsroud Terminators", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
     string fastAttack[3]={"Chaos Spawn", "Foetid Bloat-drone", "Myphitic Blight-haulers"};

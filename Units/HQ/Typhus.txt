@@ -1,0 +1,21 @@
+Typhus
+1
+0
+175
+2
+2
+4
+5
+6
+4
+2
+4
+Weapons
+The Destroyer Hive
+Blight Grenade
+Melee
+Master-crafted Manreaper
+Special
+DR
+NurglesGift
+Psycker

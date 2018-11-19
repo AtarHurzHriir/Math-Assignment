@@ -20,3 +20,4 @@ Malefic Talons
 Special
 RerollHitOne
 DR
+Psycker

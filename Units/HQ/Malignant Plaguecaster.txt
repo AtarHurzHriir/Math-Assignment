@@ -1,0 +1,22 @@
+Malignant Plaguecaster
+1
+0
+110
+3
+3
+4
+5
+4
+3
+3
+7
+Weapons
+Bolt Pistol
+Blight Grenade
+Krak Grenade
+Melee
+Corrupted Staff
+Special
+DR
+PestilentialFallout
+Psycker

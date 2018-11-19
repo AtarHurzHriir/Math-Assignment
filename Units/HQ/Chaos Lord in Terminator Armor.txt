@@ -1,17 +1,16 @@
-Chaos Lord
+Chaos Lord in Terminator Armor
 1
 0
-74
+105
 2
 2
 4
 4
-5
+6
 4
-3
+2
 4
 Weapons
-Bolt Pistol
 Combi-Bolter
 Combi-Bolter Half Range
 Combi-Flamer
@@ -31,15 +30,13 @@ Combi-Plasma SC Both Profiles
 Combi-Plasma SC Both Profiles Half Range
 Combi-Weapon Bolter Profile
 Combi-Weapon Bolter Profile Half Range
-Plasma Pistol
-Plasma Pistol SC
 Blight Grenade
 Krak Grenade
 Melee
 Balesword
-Chainaxe
-Chainsword
+Chainfist
 Lightning Claw
+Lightning Claw X2
 Power Axe
 Power Fist
 Power Maul
