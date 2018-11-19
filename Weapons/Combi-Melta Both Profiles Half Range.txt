@@ -3,5 +3,5 @@ Combi-Melta Both Profiles Half Range
 1
 8
 4
-3.5
+4.47
 HCombi

@@ -1,0 +1,6 @@
+Lightning Claw
+8
+0
+2
+1
+RerollWound
