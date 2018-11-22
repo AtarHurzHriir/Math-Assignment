@@ -1,0 +1,42 @@
+Blightlord Terminators
+5
+1
+190
+3
+3
+4
+5
+2
+2
+2
+4
+Weapons
+Blight Launcher
+Combi-Bolter
+Combi-Bolter Half Range
+Combi-Flamer
+Combi-Flamer Both Profiles
+Combi-Flamer Both Profiles Half Range
+Combi-Melta
+Combi-Melta Half Range
+Combi-Melta Both Profiles
+Combi-Melta Both Profiles Half Range
+Combi-Plasma
+Combi-Plasma Half Range
+Combi-Plasma Both Profiles
+Combi-Plasma Both Profiles Half Range
+Combi-Plasma SC
+Combi-Plasma SC Half Range
+Combi-Plasma SC Both Profiles
+Combi-Plasma SC Both Profiles Half Range
+Combi-Weapon Bolter Profile
+Combi-Weapon Bolter Profile Half Range
+Plague Spewer
+Reaper Autocannon
+Melee
+Balesword
+Bubotic Axe
+Flail of Corruption
+Special
+DR
+AuraOfRust

@@ -1,0 +1,31 @@
+Helbrute
+1
+0
+72
+3
+3
+6
+7
+8
+4
+3
+7
+Weapons
+Combi-Bolter
+Combi-Bolter Half Range
+Heavy Flamer
+Helbrute Plasma Cannon
+Missile Launcher Frag
+Missile Launcher Krak
+Multi-melta
+Multi-melta Half Range
+Reaper Autocannon
+Twin Heavy Bolter
+Twin Lascannon
+Melee
+Helbrute Fist
+Helbrute Hammer
+Power Scourge
+Special
+Crazed
+BatteringOnslaught

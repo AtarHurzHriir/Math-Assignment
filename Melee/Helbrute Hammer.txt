@@ -1,0 +1,7 @@
+Helbrute Hammer
+52
+2
+4
+3.5
+MultiplyStrength
+MinusOneToHit

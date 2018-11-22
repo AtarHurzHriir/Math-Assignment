@@ -1,0 +1,21 @@
+Biologus Putrifier
+1
+0
+74
+3
+3
+4
+5
+4
+3
+3
+7
+Weapons
+Injector Pistol
+Hyper Blight Grenade
+Krak Grenade
+Melee
+Plague Knife
+Special
+DR
+Blight Racks

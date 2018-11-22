@@ -1,0 +1,21 @@
+Tallyman
+1
+0
+
+3
+3
+4
+5
+4
+3
+3
+7
+Weapons
+Plasma Pistol
+Plasma Pistol SC
+Blight Grenade
+Krak Grenade
+Melee
+Special
+DR
+RerollFightHit

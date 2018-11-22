@@ -1,0 +1,6 @@
+Helbrute Fist
+40
+2
+3
+3
+MultiplyStrength

@@ -1,0 +1,21 @@
+Plague Surgeon
+1
+0
+59
+3
+3
+4
+5
+4
+3
+3
+7
+Weapons
+Bolt Pistol
+Blight Grenade
+Krak Grenade
+Melee
+Balesword
+Special
+DR
+Tainted Narthecium

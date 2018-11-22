@@ -1,0 +1,8 @@
+Flail of Corruption
+10
+2
+2
+2
+PlagueWeapon
+CarryOverDamage
+TwoTimesAttack

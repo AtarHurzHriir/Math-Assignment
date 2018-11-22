@@ -1,0 +1,8 @@
+Plague Spewer
+19
+3.5
+5
+1
+1
+PlagueWeapon
+Auto

@@ -1,0 +1,7 @@
+Unholy Death's Head Grenade
+0
+7
+3
+0
+1
+PlagueWeapon
