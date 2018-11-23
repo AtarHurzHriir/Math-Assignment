@@ -1,0 +1,21 @@
+Plagueburst Crawler Degrade 1
+1
+0
+110
+6
+5
+6
+8
+5
+3
+3
+5
+Weapons
+Entropy Cannon X2
+Heavy Slugger
+Plagueburst Mortar
+Plaguespitter X2
+Rothail Volley Gun
+Melee
+Special
+DR

@@ -1,0 +1,18 @@
+Poxwalkers
+10
+0
+60
+5
+6
+3
+3
+1
+2
+7
+7
+Weapons
+Melee
+Improvised Weapon
+Special
+DR
+PlusOneToHit

@@ -1,0 +1,6 @@
+Defiler Scourge
+12
+4
+2
+3
+ThreeExtraAttacks

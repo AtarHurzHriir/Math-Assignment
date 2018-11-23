@@ -1,0 +1,26 @@
+Mortarion Degrade 1
+1
+0
+470
+2
+5
+8
+7
+8
+6
+3
+4
+Weapons
+The Lantern
+Phosphex Bombs	
+Melee
+Silence Reaping Scythe
+Silence Eviscerating Blow
+PERMANENT
+Attendants' Claws and Teeth
+Special
+DR
+RerollHitOne
+EnemiesMinusOneToughness
+HostOfPlagues5
+Psyker

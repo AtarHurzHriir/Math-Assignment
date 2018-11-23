@@ -1,0 +1,6 @@
+Brutal Assault Weapon
+0
+0
+0
+1
+OneExtraAttack

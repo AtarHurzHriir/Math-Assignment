@@ -1,0 +1,26 @@
+Mortarion
+1
+0
+470
+2
+2
+8
+7
+18
+6
+3
+4
+Weapons
+The Lantern
+Phosphex Bombs	
+Melee
+Silence Reaping Scythe
+Silence Eviscerating Blow
+PERMANENT
+Attendants' Claws and Teeth
+Special
+DR
+RerollHitOne
+EnemiesMinusOneToughness
+HostOfPlagues4
+Psyker

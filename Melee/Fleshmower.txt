@@ -1,0 +1,7 @@
+Fleshmower
+12
+2
+2
+2
+PlagueWeapon
+SixExtraAttacks

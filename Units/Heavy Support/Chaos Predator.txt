@@ -1,0 +1,38 @@
+Chaos Predator
+1
+0
+90
+6
+3
+6
+7
+11
+3
+3
+7
+Weapons
+Combi-Bolter
+Combi-Bolter Half Range
+Combi-Flamer
+Combi-Flamer Both Profiles
+Combi-Flamer Both Profiles Half Range
+Combi-Melta
+Combi-Melta Half Range
+Combi-Melta Both Profiles
+Combi-Melta Both Profiles Half Range
+Combi-Plasma
+Combi-Plasma Half Range
+Combi-Plasma Both Profiles
+Combi-Plasma Both Profiles Half Range
+Combi-Plasma SC
+Combi-Plasma SC Half Range
+Combi-Plasma SC Both Profiles
+Combi-Plasma SC Both Profiles Half Range
+Combi-Weapon Bolter Profile
+Combi-Weapon Bolter Profile Half Range
+Havoc Launcher
+Heavy Bolter X2
+Lascannon X2
+Predator Autocannon
+Twin Lascannon
+Melee

@@ -1,0 +1,7 @@
+Silence Reaping Scythe
+0
+0
+2
+1
+PlagueWeapon
+ThreeTimesAttack

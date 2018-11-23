@@ -1,0 +1,8 @@
+Attendants' Claws and Teeth
+0
+2
+0
+1
+PlagueWeapon
+ReplaceStrength
+ThreePointFiveExtraAttacks

@@ -1,0 +1,7 @@
+Plagueburst Mortar
+0
+3.5
+8
+2
+2
+PlagueWeapon

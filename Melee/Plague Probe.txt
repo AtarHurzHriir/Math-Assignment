@@ -1,0 +1,6 @@
+Plague Probe
+25
+0
+2
+2
+PlagueWeapon

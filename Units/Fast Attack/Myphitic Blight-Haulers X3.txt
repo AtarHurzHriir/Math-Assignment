@@ -1,0 +1,23 @@
+Myphitic Blight-Haulers
+3
+0
+255
+4
+4
+6
+7
+8
+3
+2
+5
+Weapons
+Bule Spurt
+Missile Launcher Frag
+Missile Launcher Krak
+Multi-melta
+Melee
+Gnashing Maw
+Special
+DR
+Foul Stench
+PlusOneToHit

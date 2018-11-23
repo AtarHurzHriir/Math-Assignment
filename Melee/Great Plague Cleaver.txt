@@ -1,0 +1,8 @@
+Great Plague Cleaver
+15
+2
+3
+3.5
+MultiplyStrength
+MinusOneToHit
+PlagueWeapon

@@ -1,0 +1,22 @@
+Chaos Cultists
+10
+1
+40
+4
+4
+3
+3
+1
+1
+6
+7
+Weapons
+Autogun
+Autogun Half Range
+Autopistol
+Flamer
+Heavy Stubber
+Shotgun
+Shotgun Half Range
+Melee
+Brutal Assault Weapon

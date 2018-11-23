@@ -1,0 +1,43 @@
+Defiler Degrade 2
+1
+0
+152
+4
+5
+8
+7
+3
+2
+3
+5
+Weapons
+Battle Cannon
+Combi-Bolter
+Combi-Bolter Half Range
+Combi-Flamer
+Combi-Flamer Both Profiles
+Combi-Flamer Both Profiles Half Range
+Combi-Melta
+Combi-Melta Half Range
+Combi-Melta Both Profiles
+Combi-Melta Both Profiles Half Range
+Combi-Plasma
+Combi-Plasma Half Range
+Combi-Plasma Both Profiles
+Combi-Plasma Both Profiles Half Range
+Combi-Plasma SC
+Combi-Plasma SC Half Range
+Combi-Plasma SC Both Profiles
+Combi-Plasma SC Both Profiles Half Range
+Combi-Weapon Bolter Profile
+Combi-Weapon Bolter Profile Half Range
+Havoc Launcher
+Reaper Autocannon
+Twin Heavy Bolter
+Twin Heavy Flamer
+Twin Lascannon
+Melee
+Defiler Claws
+Defiler Scourge
+Special
+InfernalRegeneration

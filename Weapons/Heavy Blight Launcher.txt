@@ -1,0 +1,7 @@
+Heavy Blight Launcher
+35
+6
+6
+2
+2
+PlagueWeapon
