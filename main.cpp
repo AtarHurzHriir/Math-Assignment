@@ -9,7 +9,7 @@ using namespace std;
 double hit_percent(int BS,string specialProp[5], string unitSpecial[5]);
 double wound_percent(int e_toughness,int strength,string specialProp[5],string unitSpecial[5]);
 double save_percent(int e_sv, int e_inv_sv,int AP,string specialProp[5],string unitSpecial[5]);
-
+double bonusDamageOnWound(int e_toughness,int strength,string specialProp[5],string unitSpecial[5]);
 int main()
 {
     string unitType="";
@@ -479,6 +479,11 @@ int main()
                         int w_strength=weaponStats[2];
                         int AP=weaponStats[3];
                         int damage=weaponStats[4];
+                        for(int n=0;specialProp[n]!="";n++)
+                        {
+                            if(specialProp[n]=="UserStrength")
+                                w_strength=strength;
+                        }
                         //finds the percentage for damage
                         if(damage>e_wounds)
                         {
@@ -528,21 +533,37 @@ int main()
                         int AP=weaponStats[2];
                         int damage=weaponStats[3];
                         //applies special properties which ONLY affect the final damage calculation (ie attacks, or damage modifier), and the users strength
-                        int attackBonus=0;
+                        double attackBonus=0.0;
+                        double bonusDamage=0;
+                        bool carryOver=false;
                         strength=strength+w_strength;
                         for(int n=0;weaponSpecial[n]!="";n++)
                         {
                             if(weaponSpecial[n]=="OneExtraAttack")
-                                attackBonus=1;
+                                attackBonus=1.0;
                             else if(weaponSpecial[n]=="TwoExtraAttacks")
-                                attackBonus=2;
+                                attackBonus=2.0;
                             else if(weaponSpecial[n]=="ThreeExtraAttacks")
-                                attackBonus=3;
+                                attackBonus=3.0;
+                            else if(weaponSpecial[n]=="ThreePointFiveExtraAttacks")
+                                attackBonus=3.5;
+                            else if(weaponSpecial[n]=="SixExtraAttacks")
+                                attackBonus=6.0;
+                            else if(weaponSpecial[n]=="TwoTimesAttack")
+                                attacks=attacks*2;
+                            else if(weaponSpecial[n]=="ThreeTimesAttack")
+                                attacks=attacks*3;
                             else if(weaponSpecial[n]=="MultiplyStrength")
                                 strength=(strength-w_strength)*w_strength;//removes the additional strength given by the weapon, that was applied earlier, and instead multiplies it by the strength
+                            else if(weaponSpecial[n]=="ReplaceStrength")
+                                strength=w_strength;
+                            else if(weaponSpecial[n]=="MortalWoundOnWound6")
+                                bonusDamage=bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
+                            else if(weaponSpecial[n]=="CarryOverDamage")
+                                carryOver=true;
                         }
 
-                        if(damage>e_wounds)
+                        if(damage>e_wounds && !carryOver)
                         {
                             if(damage>maxDamage)
                                 maxDamage=damage;
@@ -552,7 +573,7 @@ int main()
                         double hitPercent=hit_percent(WS,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                        double damageDealt=((attacks+attackBonus)*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage;
+                        double damageDealt=((attacks+attackBonus)*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*hitPercent*bonusDamage)+totalPermWeaponDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
@@ -572,6 +593,8 @@ double hit_percent(int BS,string specialProp[5],string unitSpecial[5])
     {
         if(specialProp[n]=="MinusOneToHit")
             BS+=1;
+        if(specialProp[[n]=="AlwaysHitFive")
+            BS=5;
     }
 
     double hit=0.0;
@@ -614,13 +637,14 @@ double hit_percent(int BS,string specialProp[5],string unitSpecial[5])
     {
         if(unitSpecial[n]=="RerollHitOne")
         {
-            hit=hit+(hit*(1.0/6.0));
+            hit=hit+((1/((1-hit)*6))*hit);
         }
     }
     return hit;
 }
 double wound_percent(int e_toughness, int strength,string specialProp[5],string unitSpecial[5])
 {
+
     double percent=0;
     if(strength >= e_toughness*2)
         percent=5.0/6.0;
@@ -632,6 +656,13 @@ double wound_percent(int e_toughness, int strength,string specialProp[5],string 
         percent=1.0/6.0;
     else if(strength < e_toughness)
         percent=2.0/6.0;
+    for(int n=0;specialProp[n]!="";n++)
+    {
+        if(specialProp[n]=="PlagueWeapon")
+            percent=percent+((1/((1-percent)*6))*percent);
+        else if(specialProp[n]=="RerollWound")
+            percent=percent+(percent*(1-percent));
+    }
     return percent;
 }
 
@@ -714,3 +745,28 @@ double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5],string 
     }
     return save;
 }
+
+double bonusDamageOnWound(int e_toughness,int strength,string specialProp[5],string unitSpecial[5])
+{
+    double damage=1.0/6.0;
+    double percent=0.0;
+    if(strength >= e_toughness*2)
+        percent=5.0/6.0;
+    else if(strength > e_toughness)
+        percent=4.0/6.0;
+    else if(strength == e_toughness)
+        percent=3.0/6.0;
+    else if(strength <= e_toughness/2)
+        percent=1.0/6.0;
+    else if(strength < e_toughness)
+        percent=2.0/6.0;
+    for(int n=0;specialProp[n]!="";n++)
+    {
+        if(specialProp[n]=="PlagueWeapon")
+            damage=damage+((1/((1-percent)*6))*(1.0/6.0));
+        else if(specialProp[n]=="RerollWound")
+            damage=damage+((1-percent)*1.0/6.0);
+    }
+    return damage;
+}
+
