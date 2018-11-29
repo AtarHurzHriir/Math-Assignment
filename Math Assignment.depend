@@ -17,9 +17,10 @@
 	<fstream>
 	<string>
 
-1543431889 source:c:\users\sterling\documents\github\math-assignment\main.cpp
+1543512844 source:c:\users\sterling\documents\github\math-assignment\main.cpp
 	<iostream>
 	<istream>
 	<fstream>
 	<string>
+	<vector>
 

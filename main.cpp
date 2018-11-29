@@ -2,14 +2,14 @@
 #include <istream>
 #include <fstream>
 #include <string>
-
+#include <vector>
 using namespace std;
 
 //declare functions
-double hit_percent(int BS,string specialProp[5], string unitSpecial[5]);
-double wound_percent(int e_toughness,int strength,string specialProp[5],string unitSpecial[5]);
-double save_percent(int e_sv, int e_inv_sv,int AP,string specialProp[5],string unitSpecial[5]);
-double bonusDamageOnWound(int e_toughness,int strength,string specialProp[5],string unitSpecial[5]);
+double hit_percent(int BS,vector<string> specialProp,vector<string> unitSpecial);
+double wound_percent(int e_toughness,int strength,vector<string> specialProp,vector<string> unitSpecial);
+double save_percent(int e_sv, int e_inv_sv,int AP,vector<string> specialProp,vector<string> unitSpecial);
+double bonusDamageOnWound(int e_toughness,int strength,vector<string> specialProp,vector<string> unitSpecial);
 int main()
 {
     string unitType="";
@@ -220,7 +220,7 @@ int main()
     ifstream unit;//document holding the units stats
     int counter=0;
     int unitStats[11];//array storing all of the units stats
-    string unitSpecial[5]={""};//array for storing the special abilities of the unit
+    vector<string> unitSpecial;//array for storing the special abilities of the unit
     string unitName = "None";//variable storing units name
     string unitFileDirectory="./Units/"+unitType+"/"+desiredUnit+".txt";
     unit.open(unitFileDirectory);
@@ -232,11 +232,9 @@ int main()
 
     string storage="None";//storage variable to determine when the melee weapon list starts
     bool melee=false;//determines where the melee weapon list begins
-    string unitWeapons[22]={""};//declares the array to store the ranged weapons
-    string unitMelee[15]={""};//declares the array to store the melee weapons
-    string permanentWeapons[5]={""};//declares an array to store any ranged weapons that cannot be switched out
-    string permanentMelee[5]={""};//declares an array to store any melee weapons that cannot be switched out
-    int x=-1;
+    vector<string> unitWeapons; //declares the vector to store the ranged weapons
+    vector<string> unitMelee;//declares the array to store the melee weapons
+    vector<string> permanentWeapons;//declares an array to store any ranged weapons that cannot be switched out
     bool permanent=false;//variable to check if there are any weapons that cannot be switched out
     bool special=false;//variable to check if there are any special abilities
     while(true)
@@ -256,44 +254,38 @@ int main()
             getline(unit,storage);
             if(special)
             {
-                unitSpecial[x]=storage;
+                unitSpecial.push_back(storage);
             }
             else if (storage=="Special")
             {
-                x=-1;
                 special=true;
             }
             else if(permanent)
             {
-                permanentWeapons[x]=storage;
+                permanentWeapons.push_back(storage);
             }
             else if(storage=="PERMANENT")
             {
-                x=-1;
                 permanent=true;
             }
             else if(melee)
             {
-                unitMelee[x]=storage;
+                unitMelee.push_back(storage);
             }
             else if(storage=="Melee")
             {
                 melee=true;
                 permanent=false;
-                x=-1;
             }
             else if(!melee && !permanent && storage!="Weapons")
             {
-                unitWeapons[x]=storage;
+                unitWeapons.push_back(storage);
             }
-            x++;
         }
         counter++;
     }
     cout<<"Weapons Obtained"<<endl;
     unit.close();
-    if(unitWeapons[21]=="" && unitWeapons[22]!="")
-        unitWeapons[22]="";
     //Puts the unitStats array into variables for easier use
     //int models=unitStats[0];
     //bool champion=unitStats[1];
@@ -325,12 +317,12 @@ int main()
     damageOutputFile<<"Enemy Stats (T/SV/INV/W),";
     damagePerPoint<<unitName<<endl;
     damagePerPoint<<"Enemy Stats (T/SV/INV/W),";
-    for(int a=1;unitWeapons[a]!="";a++)
+    for(int a=1;a<unitWeapons.size();a++)
     {
         damageOutputFile<<unitWeapons[a]<<",";
         damagePerPoint<<unitWeapons[a]<<",";
     }
-    for(int a=0;unitMelee[a]!="";a++)
+    for(int a=0;a<unitMelee.size();a++)
     {
         damageOutputFile<<unitMelee[a]<<",";
         damagePerPoint<<unitMelee[a]<<",";
@@ -338,11 +330,14 @@ int main()
     damageOutputFile<<endl;
     damagePerPoint<<endl;
     ifstream weapon;//document holding theel weapon stats
-
+    for(int n=0;n<unitWeapons.size();n++)
+    {
+        cout<<unitWeapons[n]<<endl;
+    }
     //declares variables to store weapon data
     string weaponName;
     int weaponStats[4]={0};
-    string weaponSpecial[5]={""};
+    vector<string> weaponSpecial;
     double totalPermWeaponDamage=0;
     int totalPermWeaponPointCost=0;
     double shots=0;
@@ -353,6 +348,9 @@ int main()
     //loops which control the enemy stats
     for(int e_toughness=2;e_toughness<=10;e_toughness++)
     {
+        if(e_toughness>2)
+            cout<<"Toughness "<<e_toughness-1<<" complete"<<endl;
+        cout<<"Toughness "<<e_toughness<<" starting"<<endl;
         for(int e_sv=2;e_sv<8;e_sv++)
         {
             for(int e_inv=2;e_inv<8;e_inv++)
@@ -364,10 +362,9 @@ int main()
                     damageOutputFile<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
                     damagePerPoint<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
                     totalPermWeaponDamage=0;
-                    for(int a=0;permanentWeapons[a]!="";a++)//calculates the damage for all the permanent weapons from the unit
+                    for(int a=0;a<permanentWeapons.size();a++)//calculates the damage for all the permanent weapons from the unit
                     {
-                        for(int b=0;weaponSpecial[b]!="";b++)//clears weapon special array
-                            weaponSpecial[b]="";
+                        weaponSpecial.clear();
                         string weaponFile="./Weapons/"+permanentWeapons[a]+".txt";
                         weapon.open(weaponFile);
                         if(!weapon)
@@ -396,7 +393,8 @@ int main()
                             }
                             else if(counter>=5)
                             {
-                                weapon>>weaponSpecial[counter-5];
+                                weapon>>storage;
+                                weaponSpecial.push_back(storage);
                             }
                             counter++;
                         }
@@ -454,8 +452,7 @@ int main()
                     {
                         string weaponFile="./Weapons/"+unitWeapons[a]+".txt";
                         weapon.open(weaponFile);
-                        for(int b=0;weaponSpecial[b]!="";b++)//clears weapon special array
-                            weaponSpecial[b]="";
+                        weaponSpecial.clear();
                         if(!weapon)
                         {
                             cout<<"Error Finding Weapon File: "<<unitWeapons[a]<<endl;
@@ -474,7 +471,8 @@ int main()
                             }
                             else if(counter>=5)
                             {
-                                weapon>>weaponSpecial[counter-5];
+                                weapon>>storage;
+                                weaponSpecial.push_back(storage);
                             }
                             counter++;
                         }
@@ -486,18 +484,18 @@ int main()
                         int AP=weaponStats[3];
                         int damage=weaponStats[4];
                         double bonusDamage=0.0;
-                        for(int n=0;weaponSpecial[n]!="";n++)
+                        for(int n=0;n<weaponSpecial.size();n++)
                         {
                             if(weaponSpecial[n]=="UserStrength")
                                 w_strength=strength;
                             else if(weaponSpecial[n]=="Combi")
                             {
-                                string blah[5]={"MinusOneToHit","","","",""};
+                                vector<string> blah (1,"MinusOneToHit");
                                 bonusDamage=hit_percent(BS,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
                             }
                             else if(weaponSpecial[n]=="HCombi")
                             {
-                                string blah[5]={"MinusOneToHit","","","",""};
+                                vector<string> blah (1,"MinusOneToHit");
                                 bonusDamage=2*hit_percent(BS,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
                             }
                         }
@@ -519,8 +517,7 @@ int main()
                     {
                         string weaponFile="./Melee/"+unitMelee[a]+".txt";
                         weapon.open(weaponFile);
-                        for(int b=0;weaponSpecial[b]!="";b++)//clears weapon special array
-                            weaponSpecial[b]="";
+                        weaponSpecial.clear();
                         if(!weapon)
                         {
                             cout<<"Error Finding Melee Weapon File: "<<unitMelee[a]<<endl;
@@ -539,7 +536,8 @@ int main()
                             }
                             else if(counter>=5)
                             {
-                                weapon>>weaponSpecial[counter-5];
+                                weapon>>storage;
+                                weaponSpecial.push_back(storage);
                             }
                             counter++;
                         }
@@ -554,7 +552,7 @@ int main()
                         double bonusDamage=0;
                         bool carryOver=false;
                         strength=strength+w_strength;
-                        for(int n=0;weaponSpecial[n]!="";n++)
+                        for(int n=0;n<weaponSpecial.size();n++)
                         {
                             if(weaponSpecial[n]=="OneExtraAttack")
                                 attackBonus=1.0;
@@ -604,9 +602,9 @@ int main()
     return 0;
 }
 
-double hit_percent(int BS,string specialProp[5],string unitSpecial[5])
+double hit_percent(int BS,vector<string> specialProp,vector<string> unitSpecial)
 {
-    for(int n=0;specialProp[n]!="";n++)
+    for(int n=0;n<specialProp.size();n++)
     {
         if(specialProp[n]=="MinusOneToHit")
             BS+=1;
@@ -651,7 +649,7 @@ double hit_percent(int BS,string specialProp[5],string unitSpecial[5])
 
     }
 
-    for(int n=0;unitSpecial[n]!="";n++)
+    for(int n=0;n<unitSpecial.size();n++)
     {
         if(unitSpecial[n]=="RerollHitOne")
         {
@@ -660,9 +658,8 @@ double hit_percent(int BS,string specialProp[5],string unitSpecial[5])
     }
     return hit;
 }
-double wound_percent(int e_toughness, int strength,string specialProp[5],string unitSpecial[5])
+double wound_percent(int e_toughness, int strength,vector<string> specialProp,vector<string> unitSpecial)
 {
-
     double percent=0;
     if(strength >= e_toughness*2)
         percent=5.0/6.0;
@@ -674,7 +671,7 @@ double wound_percent(int e_toughness, int strength,string specialProp[5],string 
         percent=1.0/6.0;
     else if(strength < e_toughness)
         percent=2.0/6.0;
-    for(int n=0;specialProp[n]!="";n++)
+    for(int n=0;n<specialProp.size();n++)
     {
         if(specialProp[n]=="PlagueWeapon")
             percent=percent+((1/((1-percent)*6))*percent);
@@ -684,7 +681,7 @@ double wound_percent(int e_toughness, int strength,string specialProp[5],string 
     return percent;
 }
 
-double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5],string unitSpecial[5])
+double save_percent(int e_sv, int e_inv_sv, int AP,vector<string> specialProp,vector<string> unitSpecial)
 {
     double save=0.0;
     if(e_sv+AP >= 7 && e_inv_sv==7)
@@ -764,7 +761,7 @@ double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[5],string 
     return save;
 }
 
-double bonusDamageOnWound(int e_toughness,int strength,string specialProp[5],string unitSpecial[5])
+double bonusDamageOnWound(int e_toughness,int strength,vector<string> specialProp,vector<string> unitSpecial)
 {
     double damage=1.0/6.0;
     double percent=0.0;
@@ -778,7 +775,7 @@ double bonusDamageOnWound(int e_toughness,int strength,string specialProp[5],str
         percent=1.0/6.0;
     else if(strength < e_toughness)
         percent=2.0/6.0;
-    for(int n=0;specialProp[n]!="";n++)
+    for(int n=0;n<specialProp.size();n++)
     {
         if(specialProp[n]=="PlagueWeapon")
             damage=damage+((1/((1-percent)*6))*(1.0/6.0));
@@ -787,4 +784,3 @@ double bonusDamageOnWound(int e_toughness,int strength,string specialProp[5],str
     }
     return damage;
 }
-
