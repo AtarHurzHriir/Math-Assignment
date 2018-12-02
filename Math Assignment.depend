@@ -11,11 +11,12 @@
 	<fstream>
 	<string>
 
-1538238231 source:c:\users\kingp\desktop\math assignment\math-assignment\math-assignment\main.cpp
+1543712102 source:c:\users\kingp\desktop\math assignment\math-assignment\math-assignment\main.cpp
 	<iostream>
 	<istream>
 	<fstream>
 	<string>
+	<vector>
 
 1543512844 source:c:\users\sterling\documents\github\math-assignment\main.cpp
 	<iostream>
