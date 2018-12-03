@@ -6,7 +6,7 @@
 using namespace std;
 
 //declare functions
-double hit_percent(int BS,string specialProp[3],string unitSpecial[4]);
+double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4]);
 double wound_percent(int e_toughness,int strength,string specialProp[3],string unitSpecial[4]);
 double save_percent(int e_sv, int e_inv_sv,int AP,string specialProp[3],string unitSpecial[4]);
 double bonusDamageOnWound(int e_toughness,int strength,string specialProp[3],string unitSpecial[4]);
@@ -459,14 +459,14 @@ int main()
                         }
                         if(!melee)
                         {
-                            double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
+                            double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial);
                             double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
                             double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                             totalPermWeaponDamage=shots*hitPercent*woundPercent*savePercent*damage;
                         }
                         else
                         {
-                            double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
+                            double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial);
                             double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                             double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                             totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*hitPercent*woundPercent*savePercent*damage);
@@ -510,6 +510,19 @@ int main()
                         int AP=weaponStats[3];
                         int damage=weaponStats[4];
                         double bonusDamage=0.0;
+                        for(int n=0;unitSpecial[n]!="";n++)
+                        {
+                            if(unitSpecial[n]=="BlightRacks" && weaponName=="Hyper Blight Grenade")
+                            {
+                                strength+=1;
+                                damage+=1;
+                                bonusDamage+=hit_percent(BS,7,weaponSpecial,unitSpecial)*bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
+                            }
+                            else if(unitSpecial[n]=="ToxicPresence")
+                            {
+                                e_toughness-=1;
+                            }
+                        }
                         for(int n=0;weaponSpecial[n]!="";n++)
                         {
                             if(weaponSpecial[n]=="UserStrength")
@@ -517,12 +530,12 @@ int main()
                             else if(weaponSpecial[n]=="Combi")
                             {
                                 string blah[5]={"MinusOneToHit","","","",""};
-                                bonusDamage=hit_percent(BS,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
+                                bonusDamage+=hit_percent(BS,7,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
                             }
                             else if(weaponSpecial[n]=="HCombi")
                             {
                                 string blah[5]={"MinusOneToHit","","","",""};
-                                bonusDamage=2*hit_percent(BS,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
+                                bonusDamage+=2*hit_percent(BS,7,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
                             }
                         }
                         //finds the percentage for damage
@@ -532,7 +545,7 @@ int main()
                                 maxDamage=damage;
                             damage=e_wounds;
                         }
-                        double hitPercent=hit_percent(BS,weaponSpecial,unitSpecial);
+                        double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                         double damageDealt=(shots*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage+bonusDamage;
@@ -577,9 +590,32 @@ int main()
                         int damage=weaponStats[3];
                         //applies special properties which ONLY affect the final damage calculation (ie attacks, or damage modifier), and the users strength
                         double attackBonus=0.0;
-                        double bonusDamage=0;
+                        double bonusDamage=0.0;
                         bool carryOver=false;
                         strength=strength+w_strength;
+                        for(int n=0;unitSpecial[n]!="";n++)
+                        {
+                            if(unitSpecial[n]=="NurglesGift")
+                            {
+                                bonusDamage+=0.5;
+                            }
+                            else if(unitSpecial[n]=="ToxicPresence")
+                            {
+                                e_toughness-=1;
+                            }
+                            else if(unitSpecial[n]=="HostOfPlagues4")
+                            {
+                                bonusDamage+=1.0;
+                            }
+                            else if(unitSpecial[n]=="HostOfPlagues5")
+                            {
+                                bonusDamage+=2/3;
+                            }
+                            else if(unitSpecial[n]=="HostOfPlagues6")
+                            {
+                                bonusDamage+=1/3;
+                            }
+                        }
                         for(int n=0;weaponSpecial[n]!="";n++)
                         {
                             if(weaponSpecial[n]=="OneExtraAttack")
@@ -601,7 +637,7 @@ int main()
                             else if(weaponSpecial[n]=="ReplaceStrength")
                                 strength=w_strength;
                             else if(weaponSpecial[n]=="MortalWoundOnWound6")
-                                bonusDamage=bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
+                                bonusDamage+=bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
                             else if(weaponSpecial[n]=="CarryOverDamage")
                                 carryOver=true;
                         }
@@ -612,7 +648,7 @@ int main()
                             damage=e_wounds;
                         }
                         //finds the percentage for damage
-                        double hitPercent=hit_percent(WS,weaponSpecial,unitSpecial);
+                        double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                         double damageDealt=((attacks+attackBonus)*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*hitPercent*bonusDamage))+totalPermWeaponDamage;
@@ -629,7 +665,7 @@ int main()
     return 0;
 }
 
-double hit_percent(int BS,string specialProp[3],string unitSpecial[4])
+double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
 {
     for(int n=0;specialProp[n]!="";n++)
     {
@@ -641,46 +677,87 @@ double hit_percent(int BS,string specialProp[3],string unitSpecial[4])
             BS+=1;
     }
     double hit=0.0;
-    switch(BS)
+    if(WS==7)
     {
-        case 1:
+        switch(BS)
         {
-            hit = 5.0/6.0;
-            break;
+            case 1:
+            {
+                hit = 5.0/6.0;
+                break;
+            }
+            case 2:
+            {
+                hit = 5.0/6.0;
+                break;
+            }
+            case 3:
+            {
+                hit = 4.0/6.0;
+                break;
+            }
+            case 4:
+            {
+                hit = 3.0/6.0;
+                break;
+            }
+            case 5:
+            {
+                hit = 2.0/6.0;
+                break;
+            }
+            case 6:
+            {
+                hit = 1.0/6.0;
+                break;
+            }
         }
-        case 2:
-        {
-            hit = 5.0/6.0;
-            break;
-        }
-        case 3:
-        {
-            hit = 4.0/6.0;
-            break;
-        }
-        case 4:
-        {
-            hit = 3.0/6.0;
-            break;
-        }
-        case 5:
-        {
-            hit = 2.0/6.0;
-            break;
-        }
-        case 6:
-        {
-            hit = 1.0/6.0;
-            break;
-        }
-
     }
-
+    else
+    {
+        switch(WS)
+        {
+            case 1:
+            {
+                hit = 5.0/6.0;
+                break;
+            }
+            case 2:
+            {
+                hit = 5.0/6.0;
+                break;
+            }
+            case 3:
+            {
+                hit = 4.0/6.0;
+                break;
+            }
+            case 4:
+            {
+                hit = 3.0/6.0;
+                break;
+            }
+            case 5:
+            {
+                hit = 2.0/6.0;
+                break;
+            }
+            case 6:
+            {
+                hit = 1.0/6.0;
+                break;
+            }
+        }
+    }
     for(int n=0;unitSpecial[n]!="";n++)
     {
         if(unitSpecial[n]=="RerollHitOne")
         {
             hit=hit+((1/((1-hit)*6))*hit);
+        }
+        if(unitSpecial[n]=="RerollFightHit" && BS==7)
+        {
+            hit=hit+(hit*(1-hit));
         }
     }
     return hit;

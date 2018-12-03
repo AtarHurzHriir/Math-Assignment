@@ -2,7 +2,7 @@ Poxwalkers With Typhus
 10
 0
 60
-5
+4
 6
 4
 4
@@ -15,4 +15,3 @@ Melee
 Improvised Weapon
 Special
 DR
-PlusOneToHit

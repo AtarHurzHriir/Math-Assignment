@@ -18,4 +18,4 @@ Melee
 Plague Knife
 Special
 DR
-Blight Racks
+BlightRacks

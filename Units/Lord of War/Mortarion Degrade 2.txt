@@ -21,6 +21,6 @@ Attendants' Claws and Teeth
 Special
 DR
 RerollHitOne
-EnemiesMinusOneToughness
+ToxicPresence
 HostOfPlagues6
 Psyker
