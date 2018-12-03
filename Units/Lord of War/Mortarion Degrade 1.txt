@@ -12,7 +12,7 @@ Mortarion Degrade 1
 4
 Weapons
 The Lantern
-Phosphex Bombs	
+Phosphex Bombs
 Melee
 Silence Reaping Scythe
 Silence Eviscerating Blow

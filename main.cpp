@@ -17,8 +17,8 @@ int main()
     while(true)
     {
         bool valid=false;
-        string units[7]={"HQ","Troop","Elite","Fast Attack","Heavy Support","Flyers","Lord of War"};
-        cin>>unitType;
+        string units[8]={"HQ","Troop","Elite","Fast Attack","Heavy Support","Flyers","Lord of War","Dedicated Transport"};
+        getline(cin,unitType);
         for(int n=0;n<8;n++)
         {
             if(unitType==units[n])
@@ -39,6 +39,7 @@ int main()
     string heavySupport[4]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler"};
     string flyers[1]={""};
     string lordOfWar[1]={"Mortarion"};
+    string dedicatedTransport[1]={"Chaos Rhino"};
     cout<<"Which Unit Would You Like to Evaluate?"<<endl;
     string desiredUnit="";
     while(true)
@@ -212,9 +213,32 @@ int main()
                     cout<<"Please Enter a Valid Unit Name"<<endl;
             }
         }
+        else if(unitType=="Dedicated Transport")
+        {
+            if(desiredUnit=="")
+            {
+                for(int n=0;n<1;n++)
+                {
+                    cout<<dedicatedTransport[n]<<", ";
+                }
+                cout<<endl;
+            }
+            else
+            {
+                for(int n=0;n<1;n++)
+                {
+                    if(desiredUnit==dedicatedTransport[n])
+                    {
+                        valid=true;
+                        break;
+                    }
+                }
+                if(!valid)
+                    cout<<"Please Enter a Valid Unit Name"<<endl;
+            }
+        }
         if(valid)
             break;
-        cin.ignore();
         getline(cin,desiredUnit);
     }
     ifstream unit;//document holding the units stats
