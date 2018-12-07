@@ -1,0 +1,7 @@
+Helbrute Fist X2
+80
+2
+3
+3
+MultiplyStrength
+OneExtraAttack

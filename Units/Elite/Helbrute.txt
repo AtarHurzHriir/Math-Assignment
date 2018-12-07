@@ -24,6 +24,7 @@ Twin Heavy Bolter
 Twin Lascannon
 Melee
 Helbrute Fist
+Helbrute Fist X2
 Helbrute Hammer
 Power Scourge
 Special

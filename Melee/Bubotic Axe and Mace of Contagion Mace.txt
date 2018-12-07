@@ -1,0 +1,8 @@
+Bubotic Axe and Mace of Contagion Mace
+12
+2
+1
+3
+OneExtraAttack
+PlagueWeapon
+MinusOneToHit

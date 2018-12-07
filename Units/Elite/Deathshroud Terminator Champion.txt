@@ -1,17 +1,18 @@
-Deathshroud Terminators
-2
+Deathshroud Terminator Champion
 1
-100
+1
+50
 3
 3
 5
 5
 2
-3
+4
 2
 4
 Weapons
 Plaguespurt Gauntlet
+Plaguespurt Gauntlet X2
 Melee
 Manreaper
 Special

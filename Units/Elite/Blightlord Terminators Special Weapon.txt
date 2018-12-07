@@ -1,0 +1,22 @@
+Blightlord Terminators Special Weapon
+1
+1
+38
+3
+3
+4
+5
+2
+2
+2
+4
+Weapons
+Blight Launcher
+Plague Spewer
+Reaper Autocannon
+Melee
+Balesword
+Bubotic Axe
+Special
+DR
+AuraOfRust

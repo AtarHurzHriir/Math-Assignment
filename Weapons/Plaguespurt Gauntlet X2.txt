@@ -1,0 +1,8 @@
+Plaguespurt Gauntlet X2
+16
+7
+3
+0
+1
+PlagueWeapon
+Auto

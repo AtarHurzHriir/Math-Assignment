@@ -1,0 +1,30 @@
+Plague Marine Champion
+1
+1
+17
+3
+3
+4
+5
+1
+2
+3
+7
+Weapons
+Bolt Pistol
+Boltgun
+Boltgun Half Range
+Plasma Gun
+Plasma Gun Half Range
+Plasma Gun SC
+Plasma Gun SC Half Range
+Plasma Pistol
+Plasma Pistol SC
+Blight Grenade
+Krak Grenade
+Melee
+Plague Knife
+Plaguesword
+Power Fist
+Special
+DR

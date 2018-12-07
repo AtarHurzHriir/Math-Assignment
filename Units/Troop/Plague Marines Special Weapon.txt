@@ -1,0 +1,28 @@
+Plague Marines Special Weapon
+1
+1
+19
+3
+3
+4
+5
+1
+1
+3
+7
+Weapons
+Blight Launcher
+Meltagun
+Meltagun Half Range
+Plague Belcher
+Plague Spewer
+Plasma Gun
+Plasma Gun Half Range
+Plasma Gun SC
+Plasma Gun SC Half Range
+Blight Grenade
+Krak Grenade
+Melee
+Plague Knife
+Special
+DR

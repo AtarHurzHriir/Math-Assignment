@@ -1,7 +1,7 @@
 Plague Marines
-5
+2
 1
-95
+38
 3
 3
 4
@@ -11,30 +11,13 @@ Plague Marines
 3
 7
 Weapons
-Blight Launcher
-Bolt Pistol
 Boltgun
 Boltgun Half Range
-Meltagun
-Meltagun Half Range
-Plague Belcher
-Plague Spewer
-Plasma Gun
-Plasma Gun Half Range
-Plasma Gun SC
-Plasma Gun SC Half Range
-Plasma Pistol
-Plasma Pistol SC
 Blight Grenade
 Krak Grenade
 Melee
 Bubotic Axe
-Flail of Corruption
-Great Plague Cleaver
-Mace of Contagion
 Plague Knife
-Plaguesword
-Power Fist
+Plague Knife X2
 Special
 DR
-VectorsOfDeathAndDisease

@@ -1,0 +1,18 @@
+Blightlord Terminators Melee
+1
+1
+38
+3
+3
+4
+5
+2
+2
+2
+4
+Weapons
+Melee
+Flail of Corruption
+Special
+DR
+AuraOfRust

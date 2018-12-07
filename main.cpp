@@ -33,13 +33,13 @@ int main()
             cout<<"Please Enter a Valid Unit Type"<<endl;
     }
     string HQ[8]={"Chaos Lord","Chaos Lord in Terminator Armor","Daemon Prince of Nurgle","Lord of Contagion","Malignant Plaguecaster","Sorcerer","Sorcerer in Terminator Armor","Typhus"};
-    string troops[4]={"Chaos Cultists","Plague Marines","Poxwalkers","Poxwalkers with Typhus"};
-    string elite[9]={"Biologus Putrifier","Blightlord Terminators", "Deathsroud Terminators", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
-    string fastAttack[3]={"Chaos Spawn", "Foetid Bloat-drone", "Myphitic Blight-haulers"};
-    string heavySupport[4]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler"};
+    string troops[7]={"Chaos Cultists","Plague Marines","Plague Marines Special Weapon","Plague Marines Melee","Plague Marine Champion","Poxwalkers","Poxwalkers with Typhus"};
+    string elite[13]={"Biologus Putrifier","Blightlord Terminators","Blightlord Terminators Melee","Blightlord Terminators Special Weapon","Blightlord Terminator Champion", "Deathsroud Terminators","Deathsroud Terminator Champion", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
+    string fastAttack[5]={"Chaos Spawn", "Foetid Bloat-drone","Foetid Bloat-drone Degrade 1","Foetid Bloat-drone Degrade 2", "Myphitic Blight-haulers"};
+    string heavySupport[12]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler","Chaos Land Raider Degrade 1","Chaos Predator Degrade 1","Defiler Degrade 1","Plagueburst Crawler Degrade 1","Chaos Land Raider Degrade 2","Chaos Predator Degrade 2","Defiler Degrade 2","Plagueburst Crawler Degrade 2"};
     string flyers[1]={""};
-    string lordOfWar[1]={"Mortarion"};
-    string dedicatedTransport[1]={"Chaos Rhino"};
+    string lordOfWar[3]={"Mortarion", "Mortarion Degrade 1", "Mortarion Degrade 2"};
+    string dedicatedTransport[3]={"Chaos Rhino", "Chaos Rhino Degrade 1", "Chaos Rhino Degrade 2"};
     cout<<"Which Unit Would You Like to Evaluate?"<<endl;
     string desiredUnit="";
     while(true)
@@ -73,7 +73,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<4;n++)
+                for(int n=0;n<7;n++)
                 {
                     cout<<troops[n]<<", ";
                 }
@@ -81,7 +81,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<4;n++)
+                for(int n=0;n<7;n++)
                 {
                     if(desiredUnit==troops[n])
                     {
@@ -97,7 +97,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<9;n++)
+                for(int n=0;n<13;n++)
                 {
                     cout<<elite[n]<<", ";
                 }
@@ -105,7 +105,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<9;n++)
+                for(int n=0;n<13;n++)
                 {
                     if(desiredUnit==elite[n])
                     {
@@ -121,7 +121,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<3;n++)
+                for(int n=0;n<5;n++)
                 {
                     cout<<fastAttack[n]<<", ";
                 }
@@ -129,7 +129,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<3;n++)
+                for(int n=0;n<5;n++)
                 {
                     if(desiredUnit==fastAttack[n])
                     {
@@ -145,7 +145,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<4;n++)
+                for(int n=0;n<12;n++)
                 {
                     cout<<heavySupport[n]<<", ";
                 }
@@ -153,7 +153,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<4;n++)
+                for(int n=0;n<12;n++)
                 {
                     if(desiredUnit==heavySupport[n])
                     {
@@ -193,7 +193,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<1;n++)
+                for(int n=0;n<3;n++)
                 {
                     cout<<lordOfWar[n]<<", ";
                 }
@@ -201,7 +201,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<1;n++)
+                for(int n=0;n<3;n++)
                 {
                     if(desiredUnit==lordOfWar[n])
                     {
@@ -217,7 +217,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<1;n++)
+                for(int n=0;n<3;n++)
                 {
                     cout<<dedicatedTransport[n]<<", ";
                 }
@@ -225,7 +225,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<1;n++)
+                for(int n=0;n<3;n++)
                 {
                     if(desiredUnit==dedicatedTransport[n])
                     {
@@ -313,7 +313,7 @@ int main()
     cout<<"Weapons Obtained"<<endl;
     unit.close();
     //Puts the unitStats array into variables for easier use
-    //int models=unitStats[0];
+    int models=unitStats[0];
     //bool champion=unitStats[1];
     int pointCost=unitStats[2];
     int BS=unitStats[3];
@@ -343,7 +343,7 @@ int main()
     damageOutputFile<<"Enemy Stats (T/SV/INV/W),";
     damagePerPoint<<unitName<<endl;
     damagePerPoint<<"Enemy Stats (T/SV/INV/W),";
-    for(int a=1;a<unitWeapons.size();a++)
+    for(int a=0;a<unitWeapons.size();a++)
     {
         damageOutputFile<<unitWeapons[a]<<",";
         damagePerPoint<<unitWeapons[a]<<",";
@@ -359,7 +359,7 @@ int main()
     //declares variables to store weapon data
     string weaponName;
     double weaponStats[5]={0.0};
-    string weaponSpecial[3]={""};
+    string weaponSpecial[4]={""};
     double totalPermWeaponDamage=0;
     int totalPermWeaponPointCost=0;
     double shots=0;
@@ -462,14 +462,14 @@ int main()
                             double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial);
                             double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
                             double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                            totalPermWeaponDamage=shots*hitPercent*woundPercent*savePercent*damage;
+                            totalPermWeaponDamage=shots*models*hitPercent*woundPercent*savePercent*damage;
                         }
                         else
                         {
                             double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial);
                             double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                             double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                            totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*hitPercent*woundPercent*savePercent*damage);
+                            totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*hitPercent*woundPercent*savePercent*damage)*models;
                         }
                     }
                     for(int a=0;a<unitWeapons.size();a++)//calculates the damage potential of the ranged weapons
@@ -548,7 +548,7 @@ int main()
                         double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                        double damageDealt=(shots*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage+bonusDamage;
+                        double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage+bonusDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
@@ -582,6 +582,7 @@ int main()
                             }
                             counter++;
                         }
+                        cout<<weaponName<<endl;
                         weapon.close();
                         //puts weapon values into useable variables
                         int weaponPointCost=weaponStats[0];
@@ -641,6 +642,7 @@ int main()
                             else if(weaponSpecial[n]=="CarryOverDamage")
                                 carryOver=true;
                         }
+                        cout<<":P"<<endl;
                         if(damage>e_wounds && !carryOver)
                         {
                             if(damage>maxDamage)
@@ -651,7 +653,7 @@ int main()
                         double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                        double damageDealt=((attacks+attackBonus)*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*hitPercent*bonusDamage))+totalPermWeaponDamage;
+                        double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*hitPercent*bonusDamage*models))+totalPermWeaponDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                     }
@@ -678,77 +680,9 @@ double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
     }
     double hit=0.0;
     if(WS==7)
-    {
-        switch(BS)
-        {
-            case 1:
-            {
-                hit = 5.0/6.0;
-                break;
-            }
-            case 2:
-            {
-                hit = 5.0/6.0;
-                break;
-            }
-            case 3:
-            {
-                hit = 4.0/6.0;
-                break;
-            }
-            case 4:
-            {
-                hit = 3.0/6.0;
-                break;
-            }
-            case 5:
-            {
-                hit = 2.0/6.0;
-                break;
-            }
-            case 6:
-            {
-                hit = 1.0/6.0;
-                break;
-            }
-        }
-    }
+        hit=(7.0-BS)/6.0;
     else
-    {
-        switch(WS)
-        {
-            case 1:
-            {
-                hit = 5.0/6.0;
-                break;
-            }
-            case 2:
-            {
-                hit = 5.0/6.0;
-                break;
-            }
-            case 3:
-            {
-                hit = 4.0/6.0;
-                break;
-            }
-            case 4:
-            {
-                hit = 3.0/6.0;
-                break;
-            }
-            case 5:
-            {
-                hit = 2.0/6.0;
-                break;
-            }
-            case 6:
-            {
-                hit = 1.0/6.0;
-                break;
-            }
-        }
-    }
+        hit=(7.0-WS)/6.0;
     for(int n=0;unitSpecial[n]!="";n++)
     {
         if(unitSpecial[n]=="RerollHitOne")
