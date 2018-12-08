@@ -1,18 +1,20 @@
-Chaos Cultists
-8
+Chaos Cultist Champion
 1
-48
+1
+6
 4
 4
 3
 3
 1
-1
+2
 6
 7
 Weapons
 Autogun
 Autogun Half Range
 Autopistol
+Shotgun
+Shotgun Half Range
 Melee
 Brutal Assault Weapon

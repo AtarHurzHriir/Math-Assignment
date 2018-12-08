@@ -14,10 +14,15 @@ int main()
 {
     string unitType="";
     cout<<"Which Unit Type Would You Like to Evaluate?"<<endl;
+    string units[8]={"HQ","Troop","Elite","Fast Attack","Heavy Support","Flyers","Lord of War","Dedicated Transport"};
+    for(int i=0;i<8;i++)
+    {
+        cout<<units[i]<<", ";
+    }
+    cout<<endl;
     while(true)
     {
         bool valid=false;
-        string units[8]={"HQ","Troop","Elite","Fast Attack","Heavy Support","Flyers","Lord of War","Dedicated Transport"};
         getline(cin,unitType);
         for(int n=0;n<8;n++)
         {
@@ -33,7 +38,7 @@ int main()
             cout<<"Please Enter a Valid Unit Type"<<endl;
     }
     string HQ[8]={"Chaos Lord","Chaos Lord in Terminator Armor","Daemon Prince of Nurgle","Lord of Contagion","Malignant Plaguecaster","Sorcerer","Sorcerer in Terminator Armor","Typhus"};
-    string troops[7]={"Chaos Cultists","Plague Marines","Plague Marines Special Weapon","Plague Marines Melee","Plague Marine Champion","Poxwalkers","Poxwalkers with Typhus"};
+    string troops[9]={"Chaos Cultists","Chaos Cultists Special Weapon","Chaos Cultist Champion", "Plague Marines","Plague Marines Special Weapon","Plague Marines Melee","Plague Marine Champion","Poxwalkers","Poxwalkers with Typhus"};
     string elite[13]={"Biologus Putrifier","Blightlord Terminators","Blightlord Terminators Melee","Blightlord Terminators Special Weapon","Blightlord Terminator Champion", "Deathsroud Terminators","Deathsroud Terminator Champion", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
     string fastAttack[5]={"Chaos Spawn", "Foetid Bloat-drone","Foetid Bloat-drone Degrade 1","Foetid Bloat-drone Degrade 2", "Myphitic Blight-haulers"};
     string heavySupport[12]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler","Chaos Land Raider Degrade 1","Chaos Predator Degrade 1","Defiler Degrade 1","Plagueburst Crawler Degrade 1","Chaos Land Raider Degrade 2","Chaos Predator Degrade 2","Defiler Degrade 2","Plagueburst Crawler Degrade 2"};
@@ -73,7 +78,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<7;n++)
+                for(int n=0;n<9;n++)
                 {
                     cout<<troops[n]<<", ";
                 }
@@ -81,7 +86,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<7;n++)
+                for(int n=0;n<9;n++)
                 {
                     if(desiredUnit==troops[n])
                     {
@@ -318,10 +323,10 @@ int main()
     int pointCost=unitStats[2];
     int BS=unitStats[3];
     int WS=unitStats[4];
-    int strength=unitStats[5];
+    int unit_strength=unitStats[5];
     int toughness=unitStats[6];
     int wounds=unitStats[7];
-    int attacks=unitStats[8];
+    int unit_attacks=unitStats[8];
     int sv=unitStats[9];
     int inv_sv=unitStats[10];
 
@@ -339,9 +344,9 @@ int main()
         cout<<"Error Finding Average Damage of Unit File"<<endl;
         return -2;
     }
-    damageOutputFile<<unitName<<endl;
+    damageOutputFile<<","<<unitName<<endl;
     damageOutputFile<<"Enemy Stats (T/SV/INV/W),";
-    damagePerPoint<<unitName<<endl;
+    damagePerPoint<<","<<unitName<<endl;
     damagePerPoint<<"Enemy Stats (T/SV/INV/W),";
     for(int a=0;a<unitWeapons.size();a++)
     {
@@ -386,6 +391,8 @@ int main()
                     totalPermWeaponDamage=0;
                     for(int a=0;a<permanentWeapons.size();a++)//calculates the damage for all the permanent weapons from the unit
                     {
+                        int strength=unit_strength;
+                        int attacks=unit_attacks;
                         for(int i=0;weaponSpecial[i]!="";i++)
                         {
                             weaponSpecial[i]="";
@@ -514,9 +521,9 @@ int main()
                         {
                             if(unitSpecial[n]=="BlightRacks" && weaponName=="Hyper Blight Grenade")
                             {
-                                strength+=1;
+                                w_strength+=1;
                                 damage+=1;
-                                bonusDamage+=hit_percent(BS,7,weaponSpecial,unitSpecial)*bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
+                                bonusDamage+=hit_percent(BS,7,weaponSpecial,unitSpecial)*bonusDamageOnWound(e_toughness,w_strength,weaponSpecial,unitSpecial);
                             }
                             else if(unitSpecial[n]=="ToxicPresence")
                             {
@@ -526,7 +533,7 @@ int main()
                         for(int n=0;weaponSpecial[n]!="";n++)
                         {
                             if(weaponSpecial[n]=="UserStrength")
-                                w_strength=strength;
+                                w_strength=unit_strength;
                             else if(weaponSpecial[n]=="Combi")
                             {
                                 string blah[5]={"MinusOneToHit","","","",""};
@@ -551,9 +558,18 @@ int main()
                         double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage+bonusDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
+                        for(int n=0;unitSpecial[n]!="";n++)
+                        {
+                            if(unitSpecial[n]=="ToxicPresence")
+                            {
+                                e_toughness+=1;
+                            }
+                        }
                     }
                     for(int a=0;a<unitMelee.size();a++)//calculates the damage potential of the melee weapons
                     {
+                        int strength=unit_strength;
+                        int attacks=unit_attacks;
                         string weaponFile="./Melee/"+unitMelee[a]+".txt";
                         weapon.open(weaponFile);
                         for(int i=0;weaponSpecial[i]!="";i++)
@@ -582,7 +598,6 @@ int main()
                             }
                             counter++;
                         }
-                        cout<<weaponName<<endl;
                         weapon.close();
                         //puts weapon values into useable variables
                         int weaponPointCost=weaponStats[0];
@@ -642,11 +657,8 @@ int main()
                             else if(weaponSpecial[n]=="CarryOverDamage")
                                 carryOver=true;
                         }
-                        cout<<":P"<<endl;
                         if(damage>e_wounds && !carryOver)
                         {
-                            if(damage>maxDamage)
-                                maxDamage=damage;
                             damage=e_wounds;
                         }
                         //finds the percentage for damage
@@ -656,6 +668,13 @@ int main()
                         double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*hitPercent*bonusDamage*models))+totalPermWeaponDamage;
                         damageOutputFile<<damageDealt<<",";
                         damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
+                        for(int n=0;unitSpecial[n]!="";n++)
+                        {
+                            if(unitSpecial[n]=="ToxicPresence")
+                            {
+                                e_toughness+=1;
+                            }
+                        }
                     }
                     damageOutputFile<<endl;
                     damagePerPoint<<endl;
@@ -677,6 +696,8 @@ double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
             BS=5;
         else if(specialProp[n]=="Combi" or specialProp[n]=="HCombi")
             BS+=1;
+        else if(specialProp[n]=="Auto")
+            return 1;
     }
     double hit=0.0;
     if(WS==7)
@@ -689,7 +710,7 @@ double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
         {
             hit=hit+((1/((1-hit)*6))*hit);
         }
-        if(unitSpecial[n]=="RerollFightHit" && BS==7)
+        else if(unitSpecial[n]=="RerollFightHit" && BS==7)
         {
             hit=hit+(hit*(1-hit));
         }
