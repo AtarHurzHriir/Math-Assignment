@@ -1,0 +1,7 @@
+Bubotic Axe and Plague Knife (Knife)
+5
+0
+0
+1
+PlagueWeapon
+OneExtraAttack

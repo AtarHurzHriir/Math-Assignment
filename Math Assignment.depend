@@ -1,1 +1,8 @@
 # depslib dependency file v1.0
+1544483577 source:c:\users\kingp\desktop\math assignment\math-assignment\math-assignment\main.cpp
+	<iostream>
+	<istream>
+	<fstream>
+	<string>
+	<vector>
+

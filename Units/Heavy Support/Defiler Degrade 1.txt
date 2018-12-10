@@ -1,7 +1,7 @@
 Defiler Degrade 1
 1
 0
-152
+120
 4
 5
 8

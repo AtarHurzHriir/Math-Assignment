@@ -1,0 +1,7 @@
+Mace of Contagion and Plague Knife (Knife)
+7
+0
+0
+1
+PlagueWeapon
+OneExtraAttack

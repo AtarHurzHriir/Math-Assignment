@@ -1,7 +1,7 @@
 Plague Marines Melee
 1
 1
-19
+16
 3
 3
 4
@@ -14,13 +14,12 @@ Weapons
 Blight Grenade
 Krak Grenade
 Melee
-Bubotic Axe
-Bubotic Axe and Mace of Contagion Axe
-Bubotic Axe and Mace of Contagion Mace
+Bubotic Axe and Plague Knife (Knife)
+Bubotic Axe and Mace of Contagion (Axe)
+Bubotic Axe and Mace of Contagion (Mace)
 Flail of Corruption
 Great Plague Cleaver
-Mace of Contagion
-Plague Knife
+Mace of Contagion and Plague Knife (Knife)
 Plague Knife X2
 Special
 DR

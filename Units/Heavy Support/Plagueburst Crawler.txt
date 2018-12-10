@@ -1,7 +1,7 @@
 Plagueburst Crawler
 1
 0
-110
+100
 6
 4
 7

@@ -4,3 +4,4 @@ Krak Grenade
 6
 1
 2
+Grenade

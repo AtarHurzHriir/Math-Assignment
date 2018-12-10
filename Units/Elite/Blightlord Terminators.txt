@@ -1,7 +1,7 @@
 Blightlord Terminators
 2
 1
-76
+68
 3
 3
 4
@@ -11,7 +11,6 @@ Blightlord Terminators
 2
 4
 Weapons
-Blight Launcher
 Combi-Bolter
 Combi-Bolter Half Range
 Combi-Flamer
@@ -31,12 +30,9 @@ Combi-Plasma SC Both Profiles
 Combi-Plasma SC Both Profiles Half Range
 Combi-Weapon Bolter Profile
 Combi-Weapon Bolter Profile Half Range
-Plague Spewer
-Reaper Autocannon
 Melee
 Balesword
 Bubotic Axe
-Flail of Corruption
 Special
 DR
 AuraOfRust

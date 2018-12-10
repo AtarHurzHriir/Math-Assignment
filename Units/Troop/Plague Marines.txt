@@ -1,7 +1,7 @@
 Plague Marines
 2
 1
-38
+32
 3
 3
 4
@@ -16,7 +16,8 @@ Boltgun Half Range
 Blight Grenade
 Krak Grenade
 Melee
-Bubotic Axe
+Bubotic Axe and Plague Knife (Axe)
+Bubotic Axe and Plague Knife (Knife)
 Plague Knife
 Plague Knife X2
 Special

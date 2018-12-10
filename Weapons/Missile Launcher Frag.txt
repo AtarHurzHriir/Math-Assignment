@@ -1,5 +1,5 @@
 Missile Launcher Frag
-25
+20
 3.5
 4
 0

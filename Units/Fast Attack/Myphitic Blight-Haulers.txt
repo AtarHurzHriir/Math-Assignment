@@ -1,17 +1,17 @@
 Myphitic Blight-Haulers
 1
 0
-85
+75
 4
 4
 6
 7
 8
 3
-2
+3
 5
 Weapons
-Bule Spurt
+Bile Spurt
 Missile Launcher Frag
 Missile Launcher Krak
 Multi-melta

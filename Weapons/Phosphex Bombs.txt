@@ -4,3 +4,4 @@ Phosphex Bombs
 5
 1
 1
+Grenade

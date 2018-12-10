@@ -1,5 +1,5 @@
 Missile Launcher Krak
-25
+20
 1
 8
 2

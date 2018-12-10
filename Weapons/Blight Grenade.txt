@@ -5,3 +5,4 @@ Blight Grenade
 0
 1
 PlagueWeapon
+Grenade

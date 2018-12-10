@@ -6,3 +6,4 @@ Hyper Blight Grenade
 2
 PlagueWeapon
 MortalWoundOnWound6
+Grenade

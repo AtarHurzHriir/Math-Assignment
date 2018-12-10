@@ -1,17 +1,16 @@
-Chaos Spawn
+Chaos Spawn (Grasping Tseudopods)
 1
 0
-33
+25
 4
 7
 5
 5
 4
-3.5
+5.5
 5
 7
 Weapons
 Melee
 Hideous Mutations
 Special
-Mutated Beyond Reason

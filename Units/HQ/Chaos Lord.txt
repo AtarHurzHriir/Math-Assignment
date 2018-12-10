@@ -40,6 +40,7 @@ Balesword
 Chainaxe
 Chainsword
 Lightning Claw
+Lightning Claw X2
 Power Axe
 Power Fist
 Power Maul

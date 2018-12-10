@@ -39,9 +39,9 @@ int main()
     }
     string HQ[8]={"Chaos Lord","Chaos Lord in Terminator Armor","Daemon Prince of Nurgle","Lord of Contagion","Malignant Plaguecaster","Sorcerer","Sorcerer in Terminator Armor","Typhus"};
     string troops[9]={"Chaos Cultists","Chaos Cultists Special Weapon","Chaos Cultist Champion", "Plague Marines","Plague Marines Special Weapon","Plague Marines Melee","Plague Marine Champion","Poxwalkers","Poxwalkers with Typhus"};
-    string elite[13]={"Biologus Putrifier","Blightlord Terminators","Blightlord Terminators Melee","Blightlord Terminators Special Weapon","Blightlord Terminator Champion", "Deathsroud Terminators","Deathsroud Terminator Champion", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
-    string fastAttack[5]={"Chaos Spawn", "Foetid Bloat-drone","Foetid Bloat-drone Degrade 1","Foetid Bloat-drone Degrade 2", "Myphitic Blight-haulers"};
-    string heavySupport[12]={"Chaos Land Raider","Chaos Predator","Defiler","Plagueburst Crawler","Chaos Land Raider Degrade 1","Chaos Predator Degrade 1","Defiler Degrade 1","Plagueburst Crawler Degrade 1","Chaos Land Raider Degrade 2","Chaos Predator Degrade 2","Defiler Degrade 2","Plagueburst Crawler Degrade 2"};
+    string elite[13]={"Biologus Putrifier","Blightlord Terminators","Blightlord Terminators Melee","Blightlord Terminators Special Weapon","Blightlord Terminator Champion", "Deathshroud Terminators","Deathshroud Terminator Champion", "Foul Blightspawn","Helbrute", "Noxious Blightbringer","Plague Surgeon","Possessed","Tallyman"};
+    string fastAttack[8]={"Chaos Spawn (Razor Claws)","Chaos Spawn (Grasping Tseudopods)","Chaos Spawn (Toxic Haemorrage)", "Foetid Bloat-drone","Foetid Bloat-drone Degrade 1","Foetid Bloat-drone Degrade 2", "Myphitic Blight-haulers","Myphitic Blight-haulers X3"};
+    string heavySupport[12]={"Chaos Land Raider","Chaos Land Raider Degrade 1","Chaos Land Raider Degrade 2","Chaos Predator","Chaos Predator Degrade 1","Chaos Predator Degrade 2","Defiler","Defiler Degrade 1","Defiler Degrade 2","Plagueburst Crawler","Plagueburst Crawler Degrade 1","Plagueburst Crawler Degrade 2"};
     string flyers[1]={""};
     string lordOfWar[3]={"Mortarion", "Mortarion Degrade 1", "Mortarion Degrade 2"};
     string dedicatedTransport[3]={"Chaos Rhino", "Chaos Rhino Degrade 1", "Chaos Rhino Degrade 2"};
@@ -126,7 +126,7 @@ int main()
         {
             if(desiredUnit=="")
             {
-                for(int n=0;n<5;n++)
+                for(int n=0;n<8;n++)
                 {
                     cout<<fastAttack[n]<<", ";
                 }
@@ -134,7 +134,7 @@ int main()
             }
             else
             {
-                for(int n=0;n<5;n++)
+                for(int n=0;n<8;n++)
                 {
                     if(desiredUnit==fastAttack[n])
                     {
@@ -248,7 +248,7 @@ int main()
     }
     ifstream unit;//document holding the units stats
     int counter=0;
-    int unitStats[11];//array storing all of the units stats
+    double unitStats[11];//array storing all of the units stats
     string unitSpecial[4]={""};//array for storing the special abilities of the unit
     string unitName = "None";//variable storing units name
     string unitFileDirectory="./Units/"+unitType+"/"+desiredUnit+".txt";
@@ -321,15 +321,14 @@ int main()
     int models=unitStats[0];
     //bool champion=unitStats[1];
     int pointCost=unitStats[2];
-    int BS=unitStats[3];
-    int WS=unitStats[4];
+    int WS=unitStats[3];
+    int BS=unitStats[4];
     int unit_strength=unitStats[5];
     int toughness=unitStats[6];
     int wounds=unitStats[7];
-    int unit_attacks=unitStats[8];
+    double unit_attacks=unitStats[8];
     int sv=unitStats[9];
     int inv_sv=unitStats[10];
-
     ofstream damageOutputFile;
     damageOutputFile.open("Average Damage of Unit.csv");
     if(!damageOutputFile)
@@ -367,11 +366,7 @@ int main()
     string weaponSpecial[4]={""};
     double totalPermWeaponDamage=0;
     int totalPermWeaponPointCost=0;
-    double shots=0;
-    int w_strength=0;
-    int AP=0;
-    int damage=0;
-    int maxDamage=0;//variable to cap the amount of wounds the loop goes through at highest damaging weapon
+
     //loops which control the enemy stats
     for(int e_toughness=2;e_toughness<=10;e_toughness++)
     {
@@ -382,17 +377,20 @@ int main()
         {
             for(int e_inv=2;e_inv<8;e_inv++)
             {
-                if(e_inv<e_sv)
-                    e_inv=e_sv;
                 for(int e_wounds=1;e_wounds<=5;e_wounds++)
                 {
                     damageOutputFile<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
                     damagePerPoint<<e_toughness<<"/"<<e_sv<<"/"<<e_inv<<"/"<<e_wounds<<",";
                     totalPermWeaponDamage=0;
+
                     for(int a=0;a<permanentWeapons.size();a++)//calculates the damage for all the permanent weapons from the unit
                     {
                         int strength=unit_strength;
                         int attacks=unit_attacks;
+                        double shots=0;
+                        double w_strength=0;
+                        int AP=0;
+                        double damage=0;
                         for(int i=0;weaponSpecial[i]!="";i++)
                         {
                             weaponSpecial[i]="";
@@ -430,7 +428,7 @@ int main()
                             counter++;
                         }
                         weapon.close();
-                        totalPermWeaponPointCost+=weaponStats[0];
+                        totalPermWeaponPointCost+=weaponStats[0]*models;
                         if(!melee)//puts values into variables for ranged weapon
                         {
                             shots=weaponStats[1];
@@ -460,8 +458,6 @@ int main()
                         }
                         if(damage>e_wounds)
                         {
-                            if(damage>maxDamage)
-                                maxDamage=damage;
                             damage=e_wounds;
                         }
                         if(!melee)
@@ -511,11 +507,11 @@ int main()
                         }
                         weapon.close();
                         //puts weapon values into useable variables
-                        int weaponPointCost=weaponStats[0];
+                        int weaponPointCost=weaponStats[0]*models;
                         double shots=weaponStats[1];
-                        int w_strength=weaponStats[2];
+                        double w_strength=weaponStats[2];
                         int AP=weaponStats[3];
-                        int damage=weaponStats[4];
+                        double damage=weaponStats[4];
                         double bonusDamage=0.0;
                         for(int n=0;unitSpecial[n]!="";n++)
                         {
@@ -528,6 +524,14 @@ int main()
                             else if(unitSpecial[n]=="ToxicPresence")
                             {
                                 e_toughness-=1;
+                            }
+                            else if(unitSpecial[n]=="Psycker")
+                            {
+                                bonusDamage+=(5.0/12.0*2)+(2.0/12.0*3.5);
+                            }
+                            else if(unitSpecial[n]=="Pestilential Fallout")
+                            {
+                                bonusDamage+=(7.0/12.0);
                             }
                         }
                         for(int n=0;weaponSpecial[n]!="";n++)
@@ -544,20 +548,20 @@ int main()
                                 string blah[5]={"MinusOneToHit","","","",""};
                                 bonusDamage+=2*hit_percent(BS,7,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
                             }
+                            else if(weaponSpecial[n]=="Grenade")
+                                shots=shots/models;//makes it so only one model uses the weapon
                         }
                         //finds the percentage for damage
                         if(damage>e_wounds)
                         {
-                            if(damage>maxDamage)
-                                maxDamage=damage;
                             damage=e_wounds;
                         }
                         double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
                         double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage+bonusDamage;
-                        damageOutputFile<<damageDealt<<",";
-                        damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
+                        damageOutputFile<<fixed<<damageDealt<<",";
+                        damagePerPoint<<fixed<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                         for(int n=0;unitSpecial[n]!="";n++)
                         {
                             if(unitSpecial[n]=="ToxicPresence")
@@ -569,7 +573,7 @@ int main()
                     for(int a=0;a<unitMelee.size();a++)//calculates the damage potential of the melee weapons
                     {
                         int strength=unit_strength;
-                        int attacks=unit_attacks;
+                        double attacks=unit_attacks;
                         string weaponFile="./Melee/"+unitMelee[a]+".txt";
                         weapon.open(weaponFile);
                         for(int i=0;weaponSpecial[i]!="";i++)
@@ -600,15 +604,41 @@ int main()
                         }
                         weapon.close();
                         //puts weapon values into useable variables
-                        int weaponPointCost=weaponStats[0];
-                        int w_strength=weaponStats[1];
+                        int weaponPointCost=weaponStats[0]*models;
+                        double w_strength=weaponStats[1];
                         int AP=weaponStats[2];
-                        int damage=weaponStats[3];
+                        double damage=weaponStats[3];
                         //applies special properties which ONLY affect the final damage calculation (ie attacks, or damage modifier), and the users strength
                         double attackBonus=0.0;
                         double bonusDamage=0.0;
+                        double mortalWoundDamage=0.0;
                         bool carryOver=false;
                         strength=strength+w_strength;
+                        for(int n=0;weaponSpecial[n]!="";n++)
+                        {
+                            if(weaponSpecial[n]=="OneExtraAttack")
+                                attackBonus=1.0;
+                            else if(weaponSpecial[n]=="TwoExtraAttacks")
+                                attackBonus=2.0;
+                            else if(weaponSpecial[n]=="ThreeExtraAttacks")
+                                attackBonus=3.0;
+                            else if(weaponSpecial[n]=="ThreePointFiveExtraAttacks")
+                                attackBonus=3.5;
+                            else if(weaponSpecial[n]=="SixExtraAttacks")
+                                attackBonus=6.0;
+                            else if(weaponSpecial[n]=="TwoTimesAttack")
+                                attacks=attacks*2;
+                            else if(weaponSpecial[n]=="ThreeTimesAttack")
+                                attacks=attacks*3;
+                            else if(weaponSpecial[n]=="MultiplyStrength")
+                                strength=(strength-w_strength)*w_strength;//removes the additional strength given by the weapon, that was applied earlier, and instead multiplies it by the strength
+                            else if(weaponSpecial[n]=="ReplaceStrength")
+                                strength=w_strength;
+                            else if(weaponSpecial[n]=="MortalWoundOnWound6")
+                                mortalWoundDamage+=bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
+                            else if(weaponSpecial[n]=="CarryOverDamage")
+                                carryOver=true;
+                        }
                         for(int n=0;unitSpecial[n]!="";n++)
                         {
                             if(unitSpecial[n]=="NurglesGift")
@@ -631,31 +661,22 @@ int main()
                             {
                                 bonusDamage+=1/3;
                             }
-                        }
-                        for(int n=0;weaponSpecial[n]!="";n++)
-                        {
-                            if(weaponSpecial[n]=="OneExtraAttack")
-                                attackBonus=1.0;
-                            else if(weaponSpecial[n]=="TwoExtraAttacks")
-                                attackBonus=2.0;
-                            else if(weaponSpecial[n]=="ThreeExtraAttacks")
-                                attackBonus=3.0;
-                            else if(weaponSpecial[n]=="ThreePointFiveExtraAttacks")
-                                attackBonus=3.5;
-                            else if(weaponSpecial[n]=="SixExtraAttacks")
-                                attackBonus=6.0;
-                            else if(weaponSpecial[n]=="TwoTimesAttack")
-                                attacks=attacks*2;
-                            else if(weaponSpecial[n]=="ThreeTimesAttack")
-                                attacks=attacks*3;
-                            else if(weaponSpecial[n]=="MultiplyStrength")
-                                strength=(strength-w_strength)*w_strength;//removes the additional strength given by the weapon, that was applied earlier, and instead multiplies it by the strength
-                            else if(weaponSpecial[n]=="ReplaceStrength")
-                                strength=w_strength;
-                            else if(weaponSpecial[n]=="MortalWoundOnWound6")
-                                bonusDamage+=bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
-                            else if(weaponSpecial[n]=="CarryOverDamage")
-                                carryOver=true;
+                            else if(unitSpecial[n]=="Psycker")
+                            {
+                                bonusDamage+=(17.0/12.0);
+                            }
+                            else if(unitSpecial[n]=="Pestilential Fallout")
+                            {
+                                bonusDamage+=(7.0/12.0);
+                            }
+                            else if(unitSpecial[n]=="AuraOfRust")
+                            {
+                                double d=damage;
+                                if(d>e_wounds && !carryOver)
+                                    d=e_wounds;
+                                bonusDamage+=d*(attacks*1/6*models)*hit_percent(7,WS,weaponSpecial,unitSpecial)*wound_percent(e_toughness,4,weaponSpecial,unitSpecial)*save_percent(e_sv,e_inv,AP+1,weaponSpecial,unitSpecial);
+                                attacks=attacks*5/6;
+                            }
                         }
                         if(damage>e_wounds && !carryOver)
                         {
@@ -665,9 +686,9 @@ int main()
                         double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial);
                         double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
                         double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
-                        double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*hitPercent*bonusDamage*models))+totalPermWeaponDamage;
-                        damageOutputFile<<damageDealt<<",";
-                        damagePerPoint<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
+                        double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*mortalWoundDamage*hitPercent*models))+totalPermWeaponDamage+bonusDamage;
+                        damageOutputFile<<fixed<<damageDealt<<",";
+                        damagePerPoint<<fixed<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
                         for(int n=0;unitSpecial[n]!="";n++)
                         {
                             if(unitSpecial[n]=="ToxicPresence")
@@ -691,7 +712,10 @@ double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
     for(int n=0;specialProp[n]!="";n++)
     {
         if(specialProp[n]=="MinusOneToHit")
+        {
             BS+=1;
+            WS+=1;
+        }
         else if(specialProp[n]=="AlwaysHitFive")
             BS=5;
         else if(specialProp[n]=="Combi" or specialProp[n]=="HCombi")
@@ -700,7 +724,9 @@ double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
             return 1;
     }
     double hit=0.0;
-    if(WS==7)
+    if(WS>=7 && BS>=7)
+        return 0;
+    else if(WS>=7)
         hit=(7.0-BS)/6.0;
     else
         hit=(7.0-WS)/6.0;
@@ -745,7 +771,7 @@ double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[3],string 
     double save=0.0;
     if(e_sv+AP >= 7 && e_inv_sv==7)
         return 1;
-    if(((e_sv+AP)<e_inv_sv && e_inv_sv != 7) or e_inv_sv==7)
+    else if((e_sv+AP)<e_inv_sv)
     {
         switch(e_sv + AP)
         {

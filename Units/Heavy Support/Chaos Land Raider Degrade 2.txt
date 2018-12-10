@@ -1,7 +1,7 @@
 Chaos Land Raider Degrade 2
 1
 0
-239
+200
 6
 5
 8
@@ -33,3 +33,4 @@ Combi-Weapon Bolter Profile Half Range
 Havoc Launcher
 Twin Heavy Bolter
 Twin Lascannon X2
+Melee

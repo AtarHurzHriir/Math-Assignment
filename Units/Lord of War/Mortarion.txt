@@ -23,4 +23,4 @@ DR
 RerollHitOne
 ToxicPresence
 HostOfPlagues4
-Psyker
+Psycker

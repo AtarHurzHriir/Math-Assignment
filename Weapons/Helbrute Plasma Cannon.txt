@@ -1,5 +1,5 @@
 Helbrute Plasma Cannon
-30
+16
 2
 8
 3

@@ -1,5 +1,5 @@
 Twin Lascannon X2
-100
+80
 4
 9
 3
