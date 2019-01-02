@@ -19,4 +19,4 @@ Melee
 Gnashing Maw
 Special
 DR
-Foul Stench
+FoulStench

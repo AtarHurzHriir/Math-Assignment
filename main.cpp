@@ -6,10 +6,10 @@
 using namespace std;
 
 //declare functions
-double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4]);
-double wound_percent(int e_toughness,int strength,string specialProp[3],string unitSpecial[4]);
-double save_percent(int e_sv, int e_inv_sv,int AP,string specialProp[3],string unitSpecial[4]);
-double bonusDamageOnWound(int e_toughness,int strength,string specialProp[3],string unitSpecial[4]);
+double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4],string auras[3]);
+double wound_percent(int e_toughness,int strength,string specialProp[3],string unitSpecial[4],string auras[3]);
+double save_percent(int e_sv, int e_inv_sv,int AP,string specialProp[3],string unitSpecial[4],string auras[3]);
+double bonusDamageOnWound(int e_toughness,int strength,string specialProp[3],string unitSpecial[4],string auras[3]);
 int main()
 {
     string unitType="";
@@ -246,6 +246,40 @@ int main()
             break;
         getline(cin,desiredUnit);
     }
+    cout<<"Would you like to add any aura abilities?"<<endl;
+    string answer="";
+    cin>>answer;
+    string auras[3]={""};
+    if(answer=="Yes")
+    {
+        cout<<"What ability would you like to add?"<<endl;
+        string storage="";
+        int i=0;
+        while(true)
+        {
+            cin>>storage;
+            if(storage=="RerollFightHit")
+            {
+                auras[i]="RerollFightHit";
+                cout<<"OK!"<<endl;
+                i++;
+            }
+            else if(storage=="ArchContaminator")
+            {
+                auras[i]="ArchContaminator";
+                cout<<"OK!"<<endl;
+                i++;
+            }
+            else if(storage=="RerollHitOne")
+            {
+                auras[i]="RerollHitOne";
+                cout<<"OK!"<<endl;
+                i++;
+            }
+            else if(storage=="End")
+                break;
+        }
+    }
     ifstream unit;//document holding the units stats
     int counter=0;
     double unitStats[11];//array storing all of the units stats
@@ -462,16 +496,16 @@ int main()
                         }
                         if(!melee)
                         {
-                            double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial);
-                            double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
-                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
+                            double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial,auras);
+                            double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial,auras);
+                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial,auras);
                             totalPermWeaponDamage=shots*models*hitPercent*woundPercent*savePercent*damage;
                         }
                         else
                         {
-                            double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial);
-                            double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
-                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
+                            double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial,auras);
+                            double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial,auras);
+                            double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial,auras);
                             totalPermWeaponDamage=totalPermWeaponDamage+(attackBonus*hitPercent*woundPercent*savePercent*damage)*models;
                         }
                     }
@@ -513,13 +547,24 @@ int main()
                         int AP=weaponStats[3];
                         double damage=weaponStats[4];
                         double bonusDamage=0.0;
+                        for(int n=0;auras[n]!="";n++)
+                        {
+                            if(auras[n]=="ArchContaminator")
+                            {
+                                for(int i=0;weaponSpecial[i]!="";i++)
+                                {
+                                    if(weaponSpecial[i]=="PlagueWeapon")
+                                        weaponSpecial[i]=="RerollWound";
+                                }
+                            }
+                        }
                         for(int n=0;unitSpecial[n]!="";n++)
                         {
                             if(unitSpecial[n]=="BlightRacks" && weaponName=="Hyper Blight Grenade")
                             {
                                 w_strength+=1;
                                 damage+=1;
-                                bonusDamage+=hit_percent(BS,7,weaponSpecial,unitSpecial)*bonusDamageOnWound(e_toughness,w_strength,weaponSpecial,unitSpecial);
+                                bonusDamage+=hit_percent(BS,7,weaponSpecial,unitSpecial,auras)*bonusDamageOnWound(e_toughness,w_strength,weaponSpecial,unitSpecial,auras);
                             }
                             else if(unitSpecial[n]=="ToxicPresence")
                             {
@@ -541,12 +586,12 @@ int main()
                             else if(weaponSpecial[n]=="Combi")
                             {
                                 string blah[5]={"MinusOneToHit","","","",""};
-                                bonusDamage+=hit_percent(BS,7,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
+                                bonusDamage+=hit_percent(BS,7,blah,unitSpecial,auras)*wound_percent(e_toughness,4,blah,unitSpecial,auras)*save_percent(e_sv,e_inv,0,blah,unitSpecial,auras);
                             }
                             else if(weaponSpecial[n]=="HCombi")
                             {
                                 string blah[5]={"MinusOneToHit","","","",""};
-                                bonusDamage+=2*hit_percent(BS,7,blah,unitSpecial)*wound_percent(e_toughness,4,blah,unitSpecial)*save_percent(e_sv,e_inv,0,blah,unitSpecial);
+                                bonusDamage+=2*hit_percent(BS,7,blah,unitSpecial,auras)*wound_percent(e_toughness,4,blah,unitSpecial,auras)*save_percent(e_sv,e_inv,0,blah,unitSpecial,auras);
                             }
                             else if(weaponSpecial[n]=="Grenade")
                                 shots=shots/models;//makes it so only one model uses the weapon
@@ -556,9 +601,9 @@ int main()
                         {
                             damage=e_wounds;
                         }
-                        double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial);
-                        double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial);
-                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
+                        double hitPercent=hit_percent(BS,7,weaponSpecial,unitSpecial,auras);
+                        double woundPercent=wound_percent(e_toughness,w_strength,weaponSpecial,unitSpecial,auras);
+                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial,auras);
                         double damageDealt=(shots*models*hitPercent*woundPercent*savePercent*damage)+totalPermWeaponDamage+bonusDamage;
                         damageOutputFile<<fixed<<damageDealt<<",";
                         damagePerPoint<<fixed<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
@@ -614,6 +659,17 @@ int main()
                         double mortalWoundDamage=0.0;
                         bool carryOver=false;
                         strength=strength+w_strength;
+                        for(int n=0;auras[n]!="";n++)
+                        {
+                            if(auras[n]=="ArchContaminator")
+                            {
+                                for(int i=0;weaponSpecial[i]!="";i++)
+                                {
+                                    if(weaponSpecial[i]=="PlagueWeapon")
+                                        weaponSpecial[i]=="RerollWound";
+                                }
+                            }
+                        }
                         for(int n=0;weaponSpecial[n]!="";n++)
                         {
                             if(weaponSpecial[n]=="OneExtraAttack")
@@ -635,7 +691,7 @@ int main()
                             else if(weaponSpecial[n]=="ReplaceStrength")
                                 strength=w_strength;
                             else if(weaponSpecial[n]=="MortalWoundOnWound6")
-                                mortalWoundDamage+=bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial);
+                                mortalWoundDamage+=bonusDamageOnWound(e_toughness,strength,weaponSpecial,unitSpecial,auras);
                             else if(weaponSpecial[n]=="CarryOverDamage")
                                 carryOver=true;
                         }
@@ -674,8 +730,7 @@ int main()
                                 double d=damage;
                                 if(d>e_wounds && !carryOver)
                                     d=e_wounds;
-                                bonusDamage+=d*(attacks*1/6*models)*hit_percent(7,WS,weaponSpecial,unitSpecial)*wound_percent(e_toughness,4,weaponSpecial,unitSpecial)*save_percent(e_sv,e_inv,AP+1,weaponSpecial,unitSpecial);
-                                attacks=attacks*5/6;
+                                bonusDamage+=d*attacks*models*hit_percent(7,WS,weaponSpecial,unitSpecial,auras)*1/6*save_percent(e_sv,e_inv,AP+1,weaponSpecial,unitSpecial,auras);
                             }
                         }
                         if(damage>e_wounds && !carryOver)
@@ -683,9 +738,9 @@ int main()
                             damage=e_wounds;
                         }
                         //finds the percentage for damage
-                        double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial);
-                        double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial);
-                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial);
+                        double hitPercent=hit_percent(7,WS,weaponSpecial,unitSpecial,auras);
+                        double woundPercent=wound_percent(e_toughness,strength,weaponSpecial,unitSpecial,auras);
+                        double savePercent=save_percent(e_sv,e_inv,AP,weaponSpecial,unitSpecial,auras);
                         double damageDealt=((attacks+attackBonus)*models*hitPercent*woundPercent*savePercent*damage+((attacks+attackBonus)*mortalWoundDamage*hitPercent*models))+totalPermWeaponDamage+bonusDamage;
                         damageOutputFile<<fixed<<damageDealt<<",";
                         damagePerPoint<<fixed<<damageDealt/(pointCost+weaponPointCost+totalPermWeaponPointCost)<<",";
@@ -707,7 +762,7 @@ int main()
     return 0;
 }
 
-double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
+double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4],string auras[3])
 {
     for(int n=0;specialProp[n]!="";n++)
     {
@@ -730,20 +785,20 @@ double hit_percent(int BS,int WS,string specialProp[3],string unitSpecial[4])
         hit=(7.0-BS)/6.0;
     else
         hit=(7.0-WS)/6.0;
-    for(int n=0;unitSpecial[n]!="";n++)
+    for(int n=0;unitSpecial[n]!="" or auras[n]!="";n++)
     {
-        if(unitSpecial[n]=="RerollHitOne")
+        if(unitSpecial[n]=="RerollHitOne" or auras[n]=="RerollHitOne")
         {
             hit=hit+((1/((1-hit)*6))*hit);
         }
-        else if(unitSpecial[n]=="RerollFightHit" && BS==7)
+        else if((unitSpecial[n]=="RerollFightHit" or auras[n]=="RerollFightHit")&& BS==7)
         {
             hit=hit+(hit*(1-hit));
         }
     }
     return hit;
 }
-double wound_percent(int e_toughness, int strength,string specialProp[3],string unitSpecial[4])
+double wound_percent(int e_toughness, int strength,string specialProp[3],string unitSpecial[4],string auras[3])
 {
     double percent=0;
     if(strength >= e_toughness*2)
@@ -756,6 +811,11 @@ double wound_percent(int e_toughness, int strength,string specialProp[3],string 
         percent=1.0/6.0;
     else if(strength < e_toughness)
         percent=2.0/6.0;
+    for(int n=0;unitSpecial[n]!="";n++)
+    {
+        if(unitSpecial[n]=="AuraOfRust")
+            percent-=1/6;
+    }
     for(int n=0;specialProp[n]!="";n++)
     {
         if(specialProp[n]=="PlagueWeapon")
@@ -766,7 +826,7 @@ double wound_percent(int e_toughness, int strength,string specialProp[3],string 
     return percent;
 }
 
-double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[3],string unitSpecial[4])
+double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[3],string unitSpecial[4],string auras[3])
 {
     double save=0.0;
     if(e_sv+AP >= 7 && e_inv_sv==7)
@@ -846,7 +906,7 @@ double save_percent(int e_sv, int e_inv_sv, int AP,string specialProp[3],string 
     return save;
 }
 
-double bonusDamageOnWound(int e_toughness,int strength,string specialProp[3],string unitSpecial[4])
+double bonusDamageOnWound(int e_toughness,int strength,string specialProp[3],string unitSpecial[4],string auras[3])
 {
     double damage=1.0/6.0;
     double percent=0.0;
